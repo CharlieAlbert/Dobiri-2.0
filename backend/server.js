@@ -1,26 +1,53 @@
-require("dotenv").config();
 const express = require("express");
-const app = express();
-const { connect } = require("./config/db");
-const PORT = process.env.PORT;
+const mongoose = require("mongoose");
+const bodyParser = require("body-parser");
+const morgan = require("morgan");
+const connectDB = require("./config/db");
+const dotenv = require("dotenv");
 const cors = require("cors");
+
+const app = express();
+
 app.use(cors());
 app.use(express.json());
-const Authenticate=require("./middleware/userAuth.middleware")
+
+//Loading config
+dotenv.config({ path: "./config/config.env" });
+
+const PORT = process.env.PORT;
+const MONGO_URI = process.env.MONGO_URI;
+
+mongoose.connect(MONGO_URI);
+
+const db = mongoose.connection;
+
+db.on("error", (err) => {
+  console.log(err);
+});
+
+db.once("open", () => {
+  console.log("Database connection established!");
+});
+
+app.listen(PORT, () => {
+  console.log(`Server is running on port ${PORT}`);
+});
+
+const Authenticate = require("./middleware/userAuth.middleware");
 //Import user Route
-const { userRouter } = require("./router/user.router");
+const { userRouter } = require("./controllers/user.router");
 //Import Products Route
-const productsRouter = require("./router/product.router");
+const productsRouter = require("./controllers/product.router");
 //Import Admin Route
-const adminRouter = require("./router/admin.router");
+const adminRouter = require("./controllers/admin.router");
 //Import Cart Route
-const cartRouter = require("./router/cart.routes");
+const cartRouter = require("./controllers/cart.routes");
 //Import Wishlist Route
-const wishlistRouter = require("./router/wishlist.route");
-const Router=require("./router/alluser.router")
-app.use("/alluser",Router)
+const wishlistRouter = require("./controllers/wishlist.route");
+const Router = require("./controllers/alluser.router");
+app.use("/alluser", Router);
 //for User Router
- app.use("/user",userRouter)
+app.use("/user", userRouter);
 //  app.use(Authenticate)
 // For Products Router
 app.use("/products", productsRouter);
@@ -36,14 +63,3 @@ app.use("/wishlist", wishlistRouter);
 
 //For orderlist Router
 app.use("/orderlist", wishlistRouter);
-
-
-app.listen(PORT, async () => {
-  try {
-    await connect;
-    console.log(`http://localhost:${PORT}`);
-  } catch (error) {
-    console.log("connection failed");
-  }
-  console.log(`The Port is Running on ${PORT}`);
-});
