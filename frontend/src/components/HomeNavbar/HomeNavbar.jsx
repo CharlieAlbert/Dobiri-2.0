@@ -25,18 +25,23 @@ setInterval(() => {
   currentIndex = (currentIndex + 1) % images.length;
 }, 10000);
 
-//toggle button functions
-$("#search-icon").click(function() {
-  $(".nav").toggleClass("search");
-  $(".nav").toggleClass("no-search");
-  $(".search-input").toggleClass("search-active");
+// Cache selected elements in variables
+var $nav = $('.nav');
+var $searchInput = $('.search-input');
+var $menuToggle = $('.menu-toggle');
+var $searchIcon = $('#search-icon');
+
+$searchIcon.click(function() {
+  // Toggle classes on cached elements
+  $nav.toggleClass('search no-search');
+  $searchInput.toggleClass('search-active');
 });
 
-$('.menu-toggle').click(function(){
-   $(".nav").toggleClass("mobile-nav");
-   $(this).toggleClass("is-active");
+$menuToggle.click(function() {
+  // Toggle classes on cached element and clicked element
+  $nav.toggleClass('mobile-nav');
+  $(this).toggleClass('is-active');
 });
-
 
 
   const isDesktop = useBreakpointValue({ base: false, lg: true });
@@ -74,7 +79,7 @@ $('.menu-toggle').click(function(){
             <li class="nav-item navItemsSale"><a href="/blog">Blog</a></li>
             <HiOutlineShoppingBag size={20} id="nav-icon" className="nav-item" onClick={()=>navigate("/cart")} />
             <ImUser size={20} id="nav-icon" className="nav-item" onClick={() =>navigate("/login")} />
-            <FiSearch size={20} className="nav-item" id="nav-icon"/>
+            <FiSearch size={20} className="nav-item" id="search-icon"/>
           </>
         ) : (
           <>
@@ -92,11 +97,8 @@ $('.menu-toggle').click(function(){
         )}
 
             
-            <div class="search-input">
-              <input type="text" placeholder="search"/>
-              <div class="icon">
-                <i class="fas fa-search"></i>
-              </div>
+            <div>
+              <input type="text" class="search-input"  placeholder="search"/>
             </div>
           </ul>
         </nav>

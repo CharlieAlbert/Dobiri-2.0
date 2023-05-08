@@ -21,7 +21,6 @@
   
   body {
     margin: 0;
-    background: #eee url("http://source.unsplash.com/U9-D7wwurT8/1080x1920") 50% 35%/cover no-repeat padding-box padding-box local;
     font-family: 'Open Sans', sans-serif;
     font-size: 14px;
     line-height: 21px;
@@ -49,6 +48,12 @@
     display: flex;
     flex-direction: column;
     margin-right: 0;
+  }
+
+  .background{
+    background: #eee url("http://source.unsplash.com/U9-D7wwurT8/1080x1920") 50% 35%/cover no-repeat padding-box padding-box local;
+    background-size: cover;
+    background-attachment: fixed;
   }
   
   table {
@@ -129,3 +134,6 @@
     cursor: pointer;
   }
   
+  .css-1yj71a7{
+    padding: 50px;
+  }
