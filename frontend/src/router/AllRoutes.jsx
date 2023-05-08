@@ -2,7 +2,7 @@ import React from "react";
 import { Route, Routes } from "react-router-dom";
 import Login from "../components/pages/Login/Login";
 import Signup from "../components/pages/Signup/Signup";
-import NewProduct from "../components/Product/NewProduct";
+import Furniture from "../components/Product/Furniture";
 import AdminRequireAuth from "../hoc/AdminRequireAuth";
 import AdminDshboardPage from "./AdminPage/AdminDshboardPage";
 import AdminLogin from "./AdminPage/AdminLogin";
@@ -11,13 +11,13 @@ import AdminShowProduct from "./AdminPage/AdminShowProduct";
 import AdminShowUser from "./AdminPage/AdminShowUser";
 import Homepage from "../components/Homepage/Homepage";
 import AdminAddPoductPage from "./AdminPage/AdminAddPoductPage";
-import Bag from "../components/Product/Bag";
-import Wallet from "../components/Product/Wallet";
-import Desk from "../components/Product/Desk";
-import Watch from "../components/Product/Watch";
+import Groceries from "../components/Product/Groceries";
+import Liquor from "../components/Product/Liquor";
+import Homeappliances from "../components/Product/HomeAppliances";
+import Vape from "../components/Product/Vape";
 import PageNotFound from "../components/Product/404";
 import Cart from "../components/pages/Cart/Cart";
-import Sales from "../components/Product/Sales";
+import Stickers from "../components/Product/Stickers";
 import SingleProduct from "../components/Product/SingleProduct";
 import AdminUpdateProduct from "./AdminPage/AdminUpdateProduct";
 import LargeWithAppLinksAndSocial from "../components/pages/Footer/Footer";
@@ -26,6 +26,7 @@ import HomeNavbar from "../components/HomeNavbar/HomeNavbar";
 import CreditCard from "../components/Card/CreditCard";
 import Address from "../components/pages/Address/Address";
 import Whislist from "../components/pages/Wishlist/Whislist";
+import Orderfood from "../components/Product/Orderfood"
 
 const AllRoutes = () => {
   return (
@@ -71,21 +72,31 @@ const AllRoutes = () => {
         }
       ></Route>
       <Route
-        path="/newarrival"
+        path="/Furniture"
         element={
           <>
             <HomeNavbar />
-            <NewProduct />
+            <Furniture />
             <LargeWithAppLinksAndSocial />
           </>
         }
       />
       <Route
-        path="/bag"
+        path="/Orderfood"
         element={
           <>
             <HomeNavbar />
-            <Bag />
+            <Orderfood />
+            <LargeWithAppLinksAndSocial />
+          </>
+        }
+      />
+      <Route
+        path="/Groceries"
+        element={
+          <>
+            <HomeNavbar />
+            <Groceries />
             <LargeWithAppLinksAndSocial />
           </>
         }
@@ -112,31 +123,31 @@ const AllRoutes = () => {
       />
 
       <Route
-        path="/wallet"
+        path="/Liquor"
         element={
           <>
             <HomeNavbar />
-            <Wallet />
+            <Liquor />
             <LargeWithAppLinksAndSocial />
           </>
         }
       />
       <Route
-        path="/desks"
+        path="/Homeappliances"
         element={
           <>
             <HomeNavbar />
-            <Desk />
+            <Homeappliances />
             <LargeWithAppLinksAndSocial />
           </>
         }
       />
       <Route
-        path="/watch"
+        path="/Vape"
         element={
           <>
             <HomeNavbar />
-            <Watch />
+            <Vape />
             <LargeWithAppLinksAndSocial />
           </>
         }
@@ -162,11 +173,11 @@ const AllRoutes = () => {
         }
       />
       <Route
-        path="/sale"
+        path="/Stickers"
         element={
           <>
             <HomeNavbar />
-            <Sales />
+            <Stickers />
             <LargeWithAppLinksAndSocial />
           </>
         }

@@ -119,7 +119,7 @@
   cursor: pointer;
 }
 
-.search {
+#search {
   transform: translate(-15%);
   -webkit-transform: translate(-15%);
   transition: transform 0.7s ease-in-out;

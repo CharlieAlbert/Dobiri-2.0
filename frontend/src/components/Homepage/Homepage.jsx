@@ -26,6 +26,11 @@ import Tables from "../../Assets/Generic Shee Nordic Rectangular coffee.jpg";
 import Liquor from "../../Assets/DOWAX-0.jpg";
 import Shoerack from "../../Assets/Shoerack acacia wood 5 shelves.jpg";
 import topDrink from "../../Assets/weekly drink.png";
+import vape from "../../Assets/vape2.webp";
+import stickers from "../../Assets/sticker1.jpg";
+import groceries from "../../Assets/groceries.jpg";
+import foodDelivery from "../../Assets/food-delivery.png";
+import interiorDesign from "../../Assets/interiorDesign.png";
 
 const shopCategories = [
   { id: 1, url: Chairs, title: "Chairs" },
@@ -48,34 +53,34 @@ const shopCategories = [
 
 const newArrivals = [
   {
-    url: "https://images.dailyobjects.com/marche/assets/images/other/group-6681.jpg?tr=cm-pad_crop,v-2,w-874,dpr-1",
-    color: "Available in 6 Colors",
-    title: "Pedal Backpack",
-  },
-  {
-    url: "https://images.dailyobjects.com/marche/assets/images/other/group-6676.jpg?tr=cm-pad_crop,v-2,w-874,dpr-1",
-    color: "Available in 2 Colors",
-    title: "Clock & Dock",
-  },
-  {
-    url: "https://images.dailyobjects.com/marche/assets/images/other/group-6679.jpg?tr=cm-pad_crop,v-2,w-874,dpr-1",
+    url: "https://i.pinimg.com/564x/44/da/31/44da31049ceecf9cd19011af45a97e2e.jpg",
     color: "Available in 3 Colors",
-    title: "Urban Briefcase",
+    title: "Chair",
   },
   {
-    url: "https://images.dailyobjects.com/marche/assets/images/other/group-6680.jpg?tr=cm-pad_crop,v-2,w-874,dpr-1",
-    color: "Available in 4 Colors",
-    title: "Align Notebooks",
+    url: "https://i.pinimg.com/564x/28/18/b6/2818b60ace396c7a2fc385c5c1639230.jpg",
+    color: "Available in 2 Colors",
+    title: "Desk",
   },
   {
-    url: "https://images.dailyobjects.com/marche/assets/images/other/group-6678.jpg?tr=cm-pad_crop,v-2,w-874,dpr-1",
-    color: "Available in Black Colors",
-    title: "Surge 4-in-1 Cable",
+    url: "https://i.pinimg.com/564x/71/84/79/7184792fe1ef205eb4ff6048e4299038.jpg",
+    color: "",
+    title: "Smirnoff",
   },
   {
-    url: "https://images.dailyobjects.com/marche/assets/images/other/group-6677.jpg?tr=cm-pad_crop,v-2,w-874,dpr-1",
-    color: "Available in 9 Colors",
-    title: "Macbook Cases",
+    url: "https://i.pinimg.com/564x/19/6c/01/196c01aea1199e8363d122620bdf56fc.jpg",
+    color: "Available in 2 Colors",
+    title: "Shoerack",
+  },
+  {
+    url: "https://i.pinimg.com/564x/a7/d7/60/a7d7606cea6f7619660949b3124cf471.jpg",
+    color: "Available in 2 Colors",
+    title: "Shelf",
+  },
+  {
+    url: "https://i.pinimg.com/564x/31/6d/0b/316d0b84ea77c0a3e7877a4d756af3a5.jpg",
+    color: "Available in 4 colors",
+    title: "Vape",
   },
 ];
 
@@ -206,40 +211,41 @@ const Homepage = () => {
         className={styles.shopCollections}
       >
         <GridItem className={styles.shopCollectionsItems}>
-          <Image src={topDrink} alt="" />
-          <p>Drink of the week</p>
-          <p>Get a taste of the weeks top selling drink!</p>
+          <Image src={topDrink} alt="" max-width={"100%"} style={{ height: "auto", aspectRatio: "3/2", objectFit: "contain",}} />
+          <p>Drinks</p>
+          <p>Keep the party going!</p>
           <p>
-            <Link className={styles.coll_link} to="/">
+            <Link className={styles.coll_link} to="/liquor">
               Shop Now
             </Link>
           </p>
         </GridItem>
         <GridItem className={styles.shopCollectionsItems}>
           <Image
-            src="https://images.dailyobjects.com/marche/assets/images/other/zodiac-collections.jpg?tr=cm-pad_crop,v-2,w-421,dpr-1"
+            max-width={"100%"} style={{ height: "auto", aspectRatio: "3/2", objectFit: "contain",}}
+            src={vape}
             alt=""
           />
-          <p>Deal of the week</p>
-          <p>Buy items worth Ksh1500+ and get a 20% discount</p>
+          <p>Vape</p>
+          <p>The fun you wouldn't miss</p>
           <p>
-            <Link className={styles.coll_link} to="/">
+            <Link className={styles.coll_link} to="/vape">
               Shop Now
             </Link>
           </p>
         </GridItem>
         <GridItem className={styles.shopCollectionsItems}>
           <Image
-            src="https://images.dailyobjects.com/marche/assets/images/other/pixel-banner-4-02.jpg?tr=cm-pad_crop,v-2,w-421,dpr-1"
+            max-width={"100%"} style={{ height: "auto", aspectRatio: "3/2", objectFit: "contain",}}
+            src={stickers}
             alt=""
           />
-          <p>Trending</p>
+          <p>Stickers</p>
           <p>
-            A reflection of modern pop-culture, this collection has a vintage
-            appeal that evokes nostalgia.
+            A reflection of modern culture. Get awesome stickers for your phone.
           </p>
           <p>
-            <Link className={styles.coll_link} to="/">
+            <Link className={styles.coll_link} to="/stickers">
               Shop Now
             </Link>
           </p>
@@ -268,7 +274,14 @@ const Homepage = () => {
           >
             {newArrivals.map((ele, i) => (
               <SwiperSlide key={i}>
-                <Image width={"100%"} src={ele.url} alt="" />
+                <Image
+                 max-width={"100%"}
+                 style={{
+                   height: "auto",
+                   aspectRatio: "3/2",
+                   objectFit: "contain",
+                 }}
+                 src={ele.url} alt="" />
                 <p style={{ fontSize: "14px", color: "gray" }}>{ele.color}</p>
                 <p>{ele.title}</p>
               </SwiperSlide>
@@ -287,7 +300,7 @@ const Homepage = () => {
       >
         <GridItem className={styles.shopCollectionsItems}>
           <Image
-            src="https://images.dailyobjects.com/marche/assets/images/other/charging-ssolution.jpg?tr=cm-pad_crop,v-2,w-621,dpr-1"
+            src={groceries}
             alt=""
           />
           <p>Groceries</p>
@@ -299,7 +312,7 @@ const Homepage = () => {
         </GridItem>
         <GridItem className={styles.shopCollectionsItems}>
           <Image
-            src="https://images.dailyobjects.com/marche/assets/images/other/work-eessentials.jpg?tr=cm-pad_crop,v-2,w-621,dpr-1"
+            src={foodDelivery}
             alt=""
           />
           <p>Order in</p>
@@ -311,7 +324,7 @@ const Homepage = () => {
         </GridItem>
       </Grid>
 
-      {/* Collections */}
+      {/* Collections 
       <Heading className={styles.h2}>COLLECTIONS</Heading>
       <Grid
         templateColumns={{
@@ -327,7 +340,7 @@ const Homepage = () => {
             src="https://images.dailyobjects.com/marche/assets/images/other/collection-08-01.jpg?tr=cm-pad_crop,v-2,w-421,dpr-1"
             alt=""
           />
-          <p>08:01 COLLECTION</p>
+          <p>Home Decor</p>
           <p>
             Features a range of chroniclers that let you preserve all brief
             encounters on your journey.
@@ -343,7 +356,7 @@ const Homepage = () => {
             src="https://images.dailyobjects.com/marche/assets/images/other/zootopia-Web.jpg?tr=cm-pad_crop,v-2,w-421,dpr-1"
             alt=""
           />
-          <p>DAILYOBJECTS X SMARTSTERS</p>
+          <p>Home Furniture</p>
           <p>
             A playful and functional range of indoor desk and storage solutions
             for children.
@@ -359,7 +372,7 @@ const Homepage = () => {
             src="https://images.dailyobjects.com/marche/assets/images/other/collection-tarp.jpg?tr=cm-pad_crop,v-2,w-421,dpr-1"
             alt=""
           />
-          <p>TARP COLLECTION</p>
+          <p>Home Appliances</p>
           <p>
             Urban-inspired carriers, made for free-spirited and powerful
             wearers.
@@ -371,15 +384,11 @@ const Homepage = () => {
           </p>
         </GridItem>
       </Grid>
+      */}
+
       <div className={styles.homeItems}>
         <Image
-          src="https://images.dailyobjects.com/marche/assets/images/other/organisers-desktops.jpg?tr=cm-pad_crop,v-2,w-1349,dpr-1"
-          alt=""
-        />
-      </div>
-      <div className={styles.homeItems}>
-        <Image
-          src="https://images.dailyobjects.com/marche/assets/images/other/corporate-gifting-desktops.jpg?tr=cm-pad_crop,v-2,w-1349,dpr-1"
+          src={interiorDesign}
           alt=""
         />
       </div>
@@ -397,20 +406,24 @@ const Homepage = () => {
         <GridItem>
           <h2 className={styles.h1}>OUR STORY</h2>
           <p>
-            Founded in 2012, DailyObjects is a design-obsessed lifestyle
-            accessories brand committed to making your everyday carry
-            #lessordinary.
+          Dobiri is a comprehensive e-commerce website that offers a 
+          wide range of products, including furniture, groceries, liquor,
+           vape, home appliances, and food delivery services. Our primary 
+           focus is on providing convenient and accessible shopping experiences
+            for university students who lead busy lives. 
           </p>
           <p>
-            You can look forward to a carefully-crafted range of products, made
-            from long-lasting materials, with designs that stand out and make
-            your life easy. With DailyObjects, let your lifestyle reflect your
-            sensibilities as you go on to make your every day #lessordinary.
+          Our platform provides
+             a user-friendly interface that allows customers to shop from the
+              comfort of their homes and get their orders delivered to their 
+              doorstep in a timely and efficient manner. Our goal is to 
+              simplify the shopping process while providing quality products 
+              at affordable prices.
           </p>
           <p>
-            <Link className={styles.coll_link} to="/">
+            {/*<Link className={styles.coll_link} to="/">
               Read More
-            </Link>
+      </Link>*/}
           </p>
         </GridItem>
         <GridItem>
@@ -424,7 +437,7 @@ const Homepage = () => {
       <br />
       <hr />
 
-      {/* dailyObjects Official */}
+      {/* dobiri Official */}
       <Official />
     </div>
   );

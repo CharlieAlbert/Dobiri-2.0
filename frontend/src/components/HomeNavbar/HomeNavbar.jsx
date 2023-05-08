@@ -64,13 +64,13 @@ $('.menu-toggle').click(function(){
                 
             {isDesktop ? (
           <>
-            <li class="nav-item"><a href="/newarrival">Furniture</a></li>
-            <li class="nav-item"><a href="/desks">Home&nbsp;Appliances</a></li>
-            <li class="nav-item"><a href="/sale">Stickers</a></li>
-            <li class="nav-item"><a href="/wallet">Liquor</a></li>
+            <li class="nav-item"><a href="/Furniture">Furniture</a></li>
+            <li class="nav-item"><a href="/HomeAppliances">Home&nbsp;Appliances</a></li>
+            <li class="nav-item"><a href="/Stickers">Stickers</a></li>
+            <li class="nav-item"><a href="/Liquor">Liquor</a></li>
             <li class="nav-item"><a href="/Vape">Vape</a></li>
-            <li class="nav-item"><a href="/bag">Groceries</a></li>
-            <li class="nav-item"><a href="/watch">Order&nbsp;Food</a></li>
+            <li class="nav-item"><a href="/Groceries">Groceries</a></li>
+            <li class="nav-item"><a href="/Orderfood">Order&nbsp;Food</a></li>
             <li class="nav-item navItemsSale"><a href="/blog">Blog</a></li>
             <HiOutlineShoppingBag size={20} id="nav-icon" className="nav-item" onClick={()=>navigate("/cart")} />
             <ImUser size={20} id="nav-icon" className="nav-item" onClick={() =>navigate("/login")} />
@@ -79,8 +79,8 @@ $('.menu-toggle').click(function(){
         ) : (
           <>
             <li class="nav-item"><a href="/login">Login</a></li>
-            <li class="nav-item"><a href="/newarrival">Furniture</a></li>
-            <li class="nav-item"><a href="/desks">Home&nbsp;Appliances</a></li>
+            <li class="nav-item"><a href="/Furniture">Furniture</a></li>
+            <li class="nav-item"><a href="/Home Appliances">Home&nbsp;Appliances</a></li>
             <li class="nav-item"><a href="/sale">Stickers</a></li>
             <li class="nav-item"><a href="/wallet">Liquor</a></li>
             <li class="nav-item"><a href="/Vape">Vape</a></li>
@@ -92,7 +92,12 @@ $('.menu-toggle').click(function(){
         )}
 
             
-            <input class="search-input" type="text" placeholder="Search.."/>
+            <div class="search-input">
+              <input type="text" placeholder="search"/>
+              <div class="icon">
+                <i class="fas fa-search"></i>
+              </div>
+            </div>
           </ul>
         </nav>
       </div>
