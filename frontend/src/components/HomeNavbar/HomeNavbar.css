@@ -114,12 +114,25 @@
   transition: color 0.3s ease-out;
 }
 
+#search-icon{
+  font-size: 0.9rem;
+  margin-top: 3px;
+  margin-left: 15px;
+  color: white;
+  transition: color 0.3s ease-out;
+}
+
+#search-icon:hover{
+  color: #EB5E28;
+  cursor: pointer;
+}
+
 #nav-icon:hover {
   color: #EB5E28;
   cursor: pointer;
 }
 
-.search {
+#search {
   transform: translate(-15%);
   -webkit-transform: translate(-15%);
   transition: transform 0.7s ease-in-out;

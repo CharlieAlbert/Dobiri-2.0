@@ -25,18 +25,23 @@ setInterval(() => {
   currentIndex = (currentIndex + 1) % images.length;
 }, 10000);
 
-//toggle button functions
-$("#search-icon").click(function() {
-  $(".nav").toggleClass("search");
-  $(".nav").toggleClass("no-search");
-  $(".search-input").toggleClass("search-active");
+// Cache selected elements in variables
+var $nav = $('.nav');
+var $searchInput = $('.search-input');
+var $menuToggle = $('.menu-toggle');
+var $searchIcon = $('#search-icon');
+
+$searchIcon.click(function() {
+  // Toggle classes on cached elements
+  $nav.toggleClass('search no-search');
+  $searchInput.toggleClass('search-active');
 });
 
-$('.menu-toggle').click(function(){
-   $(".nav").toggleClass("mobile-nav");
-   $(this).toggleClass("is-active");
+$menuToggle.click(function() {
+  // Toggle classes on cached element and clicked element
+  $nav.toggleClass('mobile-nav');
+  $(this).toggleClass('is-active');
 });
-
 
 
   const isDesktop = useBreakpointValue({ base: false, lg: true });
@@ -64,23 +69,23 @@ $('.menu-toggle').click(function(){
                 
             {isDesktop ? (
           <>
-            <li class="nav-item"><a href="/newarrival">Furniture</a></li>
-            <li class="nav-item"><a href="/desks">Home&nbsp;Appliances</a></li>
-            <li class="nav-item"><a href="/sale">Stickers</a></li>
-            <li class="nav-item"><a href="/wallet">Liquor</a></li>
+            <li class="nav-item"><a href="/Furniture">Furniture</a></li>
+            <li class="nav-item"><a href="/HomeAppliances">Home&nbsp;Appliances</a></li>
+            <li class="nav-item"><a href="/Stickers">Stickers</a></li>
+            <li class="nav-item"><a href="/Liquor">Liquor</a></li>
             <li class="nav-item"><a href="/Vape">Vape</a></li>
-            <li class="nav-item"><a href="/bag">Groceries</a></li>
-            <li class="nav-item"><a href="/watch">Order&nbsp;Food</a></li>
+            <li class="nav-item"><a href="/Groceries">Groceries</a></li>
+            <li class="nav-item"><a href="/Orderfood">Order&nbsp;Food</a></li>
             <li class="nav-item navItemsSale"><a href="/blog">Blog</a></li>
             <HiOutlineShoppingBag size={20} id="nav-icon" className="nav-item" onClick={()=>navigate("/cart")} />
             <ImUser size={20} id="nav-icon" className="nav-item" onClick={() =>navigate("/login")} />
-            <FiSearch size={20} className="nav-item" id="nav-icon"/>
+            <FiSearch size={20} className="nav-item" id="search-icon"/>
           </>
         ) : (
           <>
             <li class="nav-item"><a href="/login">Login</a></li>
-            <li class="nav-item"><a href="/newarrival">Furniture</a></li>
-            <li class="nav-item"><a href="/desks">Home&nbsp;Appliances</a></li>
+            <li class="nav-item"><a href="/Furniture">Furniture</a></li>
+            <li class="nav-item"><a href="/Home Appliances">Home&nbsp;Appliances</a></li>
             <li class="nav-item"><a href="/sale">Stickers</a></li>
             <li class="nav-item"><a href="/wallet">Liquor</a></li>
             <li class="nav-item"><a href="/Vape">Vape</a></li>
@@ -92,7 +97,9 @@ $('.menu-toggle').click(function(){
         )}
 
             
-            <input class="search-input" type="text" placeholder="Search.."/>
+            <div>
+              <input type="text" class="search-input"  placeholder="search"/>
+            </div>
           </ul>
         </nav>
       </div>

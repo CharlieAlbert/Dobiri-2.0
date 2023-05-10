@@ -58,8 +58,13 @@ const Cart = () => {
         <p>
           <Button
             onClick={() => navigate("/sale")}
-            size="lg"
-            colorScheme={"teal"}
+            width={"200px"}
+            bg={"#000"}
+            color={"white"}
+            _hover={{
+              bg: "#eb5e28",
+            }}
+            type="submit"
           >
             Browse Products
           </Button>

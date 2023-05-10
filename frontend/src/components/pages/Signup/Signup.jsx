@@ -74,7 +74,7 @@ const Signup = () => {
           align={"center"}
           justify={"center"}
           //   bg={useColorModeValue('gray.50', 'gray.800')}
-          bg="#11364E"
+          bg="#fff"
         >
           <Stack
             spacing={6}
@@ -88,12 +88,6 @@ const Signup = () => {
             my={12}
             alignItems={"center"}
           >
-            <Image
-              src={
-                "https://drive.google.com/uc?export=view&id=1Au2Q9AJ9LQwCZ4VIzPk52z5ZroOkNBfh"
-              }
-              width={"30%"}
-            />
             <Heading lineHeight={1.1} fontSize={{ base: "2xl", md: "3xl" }}>
               Register
             </Heading>
@@ -126,7 +120,7 @@ const Signup = () => {
               <FormControl isRequired pb={"20px"}>
                 <FormLabel fontSize={"18px"}>Email address</FormLabel>
                 <Input
-                  placeholder="your-email@dailysope.com"
+                  placeholder="your-email@domain.com"
                   _placeholder={{ color: "gray.500" }}
                   type="email"
                   name="email"
@@ -150,7 +144,7 @@ const Signup = () => {
               <FormControl isRequired pb={"20px"}>
                 <FormLabel fontSize={"18px"}>Mobile Number</FormLabel>
                 <Input
-                  placeholder="123456789"
+                  placeholder="0123456789"
                   _placeholder={{ color: "gray.500" }}
                   type="Number"
                   name="mobile"
@@ -161,10 +155,10 @@ const Signup = () => {
               <Stack spacing={6} alignItems={"center"}>
                 <Button
                   width={"200px"}
-                  bg={"green.700"}
+                  bg={"#000"}
                   color={"white"}
                   _hover={{
-                    bg: "green.600",
+                    bg: "#eb5e28",
                   }}
                   type="submit"
                 >
@@ -176,13 +170,13 @@ const Signup = () => {
               <Link to="/login">
                 <Button
                   width={"200px"}
-                  bg={"green.700"}
+                  bg={"#000"}
                   color={"white"}
                   _hover={{
-                    bg: "green.600",
+                    bg: "#eb5e28",
                   }}
                 >
-                  Click to go Login Page
+                  Sign In
                 </Button>
               </Link>
             </Stack>

@@ -5,7 +5,7 @@ import Items from "./Items";
 import useFetch from "./hooks";
 import { useDispatch, useSelector } from "react-redux";
 import { handleProductdata } from "../../redux/Product/action";
-export default function Sales() {
+export default function Stickers() {
   const Reset = useSelector((b) => b.productReducer.Reset);
   const dispatch = useDispatch();
   const [count, setCount] = useState(false);
@@ -14,7 +14,7 @@ export default function Sales() {
   const [page, setPage] = useState(1);
   let category;
   if(query){category=query}
-  let url=`https://dailybackend.onrender.com/products?maincategory=sales&page=${page}&${category}&sort=${sortdata}`;
+  let url=`https://localhost:5000/products?maincategory=sales&page=${page}&${category}&sort=${sortdata}`;
   let { loading, error, list } = useFetch(query, page,url);
   const loader = useRef(null);
   const handleObserver = useCallback((entries) => {
@@ -48,7 +48,7 @@ if(query){list=list.filter((elem)=>elem.category===query)}
   return (
     <>
       <Header
-        title="SALES"
+        title="Stickers"
         query={query}
         setQuery={setQuery}
         setSortdata={setSortdata}

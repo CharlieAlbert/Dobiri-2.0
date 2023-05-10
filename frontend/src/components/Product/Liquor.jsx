@@ -4,12 +4,12 @@ import Header from './Header';
 import useFetch from './hooks';
 import Items from './Items';
 
-export default function Wallet() {
+export default function Liquor() {
     const [query, setQuery] = useState("");
     const [sortdata, setSortdata] = useState("");
     const [page, setPage] = useState(1);
-    let url=`https://dailybackend.onrender.com/products?page=${page}&category=wallet&sort=${sortdata}`;
-    let { loading, error, list } = useFetch(query, page,url);
+    let url=`https://localhost:5000/products?page=${page}&category=wallet&sort=${sortdata}`;
+    let { loading, error, list } = useFetch(query, page, url);
     const loader = useRef(null);
     const handleObserver = useCallback((entries) => {
       const target = entries[0];
@@ -38,7 +38,7 @@ export default function Wallet() {
   return (
     <>
       <Header
-        title="WALLETS"
+        title="Liquor"
         setQuery={setQuery}
         setSortdata={setSortdata}
       />

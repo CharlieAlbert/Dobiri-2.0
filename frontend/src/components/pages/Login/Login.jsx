@@ -5,6 +5,8 @@ import { useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { Link, useLocation,useNavigate } from 'react-router-dom'
 import { Userlogin } from '../../../redux/UserLogin/userLoginaction'
+
+import Logo from '../../../Assets/Dobiri.png';
  
 const Login = () => {
 
@@ -96,12 +98,7 @@ const Login = () => {
           my={12}
           alignItems={"center"}
         >
-          <Image
-            src={
-              "https://drive.google.com/uc?export=view&id=1Au2Q9AJ9LQwCZ4VIzPk52z5ZroOkNBfh"
-            }
-            width={"30%"}
-          />
+        
           <Heading lineHeight={1.1} fontSize={{ base: "2xl", md: "3xl" }}>
             Login
           </Heading>
@@ -109,7 +106,7 @@ const Login = () => {
             <FormControl id="email" isRequired pb={"20px"}>
               <FormLabel fontSize={"18px"}>Email address</FormLabel>
               <Input
-                placeholder="your-email@dailysope.com"
+                placeholder="your-email@domain.com"
                 _placeholder={{ color: "gray.500" }}
                 type="email"
                 name="email"
@@ -126,10 +123,10 @@ const Login = () => {
                  
                   isLoading={isAuthLoading}
                   width={"200px"}
-                  bg={"green.700"}
+                  bg={"#000"}
                   color={"white"}
                   _hover={{
-                    bg: "green.600",
+                    bg: "#eb5e28",
                   }}
                   type="submit"
                 >
@@ -144,14 +141,14 @@ const Login = () => {
                  
                   
                  width={"200px"}
-                 bg={"green.700"}
+                 bg={"#000"}
                  color={"white"}
                  _hover={{
-                   bg: "green.600",
+                   bg: "#eb5e28",
                  }}
                  
                >
-                 Click to go Register Page
+                 Sign Up
                </Button>
                </Link>
           </Stack>
