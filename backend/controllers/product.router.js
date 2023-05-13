@@ -1,7 +1,7 @@
 const express = require("express");
 const Router = express.Router();
 const adminAuth = require("../middleware/adminAuth.middleware");
-//Import Products Module
+//Import Products Model
 const Product = require("../model/product.model");
 
 //Import QueryFinder controller.

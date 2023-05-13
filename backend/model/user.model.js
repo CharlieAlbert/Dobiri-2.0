@@ -20,7 +20,7 @@ const userschema = mongoose.Schema(
       require: true,
     },
     mobile: {
-      type: Number,
+      type: String,
       require: true,
     },
     wishlist: {
