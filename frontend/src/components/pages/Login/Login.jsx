@@ -50,8 +50,13 @@ const Login = () => {
         });
          navigate("/");
 
+         console.log("success");
+
       }else if(state!==null){
         navigate(state.from, { replace: true });
+        navigate("/");
+
+        console.log("success");
 
        return toast({
           title: "Success",
@@ -61,6 +66,7 @@ const Login = () => {
           position: "top",
           isClosable: true,
         });
+       
       }
      }
      if(isAuthError){

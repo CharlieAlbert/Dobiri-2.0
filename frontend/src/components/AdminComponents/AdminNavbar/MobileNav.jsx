@@ -18,6 +18,10 @@ import { FiBell, FiChevronDown, FiMenu } from "react-icons/fi";
 import { useDispatch, useSelector } from "react-redux";
 import { adminLogout } from "../../../redux/AdminLogin/adminLogin.action";
 import { json, Navigate } from "react-router-dom";
+
+//Images
+import logo from '../../../Assets/Dobiri.png';
+
 const MobileNav = ({ onOpen }) => {
   const { isAuth, data } = useSelector((store) => store.adminAuth);
   // const { admin } = data;
@@ -37,9 +41,10 @@ const MobileNav = ({ onOpen }) => {
       px={{ base: 4, md: 4 }}
       height="20"
       alignItems="center"
-      bg={"white"}
+      bg={"black"}
       borderBottomWidth="1px"
       borderBottomColor={"gray.200"}
+      color={"white"}
       justifyContent={{ base: "space-between", md: "flex-end" }}
     >
       <IconButton
@@ -56,7 +61,7 @@ const MobileNav = ({ onOpen }) => {
         justifyContent={"center"}
       >
         <Image
-          src="https://drive.google.com/uc?export=view&id=1Au2Q9AJ9LQwCZ4VIzPk52z5ZroOkNBfh"
+          src={logo}
           width={"60%"}
         />
       </Box>
@@ -87,7 +92,7 @@ const MobileNav = ({ onOpen }) => {
                     {data.first_name || admin[0].first_name}
                     {data.last_name || admin[0].last_name}
                   </Text>
-                  <Text fontSize="xs" color="gray.600">
+                  <Text fontSize="xs" color="white">
                     Admin
                   </Text>
                 </VStack>

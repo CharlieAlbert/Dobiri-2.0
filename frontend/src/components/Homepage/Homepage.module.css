@@ -9,6 +9,20 @@ img {
   width: 100%;
 }
 
+#heroimg{
+  background-attachment: fixed;
+}
+
+.imageLink{
+  background: #000;
+  width: 100%;
+}
+
+.linkText{
+  text-decoration: none;
+  font-weight: 700;
+}
+
 .heroButton {
   background-color: #000;
   transition: background-color 0.7s cubic-bezier(0.455, 0.03, 0.515, 0.955);

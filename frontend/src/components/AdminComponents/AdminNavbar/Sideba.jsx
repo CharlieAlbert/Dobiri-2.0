@@ -7,6 +7,10 @@ import {
   FiPieChart,
 } from "react-icons/fi";
 import NavItem from "./NavItem";
+
+//Images
+import logo from '../../../Assets/Dobiri.png';
+
 const Sideba = ({ onClose, display }) => {
   const LinkItems = [
     { name: "Dashboard", icon: FiPieChart, link: "/admin" },
@@ -28,12 +32,16 @@ const Sideba = ({ onClose, display }) => {
         h={"full"}
       >
         <Flex h="20" alignItems="center" mx="8" justifyContent="space-between">
+        <div style={{backgroundColor: "#000", padding: "10px 20px 10px 20px", borderRadius: "10px"}}> <Image src={logo} />
           <Box
             width={{ base: "50%", sm: "60%", md: "40%", lg: "80%" }}
             display={{ lg: "none" }}
+            style={{backgroundColor: "#000"}}
           >
-            <Image src="https://drive.google.com/uc?export=view&id=1Au2Q9AJ9LQwCZ4VIzPk52z5ZroOkNBfh" />
+           
+           
           </Box>
+          </div>
           <CloseButton
             display={{ base: "flex", md: "none" }}
             onClick={onClose}
