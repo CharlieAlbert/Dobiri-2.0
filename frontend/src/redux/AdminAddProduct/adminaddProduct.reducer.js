@@ -2,7 +2,7 @@ import { ADMIN_ADD_PRODUCT } from "./adminaddProduct.type";
 
 const initialValue = {
   productData: {},
-  msg: "",
+  msg: "Product added successfully",
 };
 
 export const adminAddProductReducer = (

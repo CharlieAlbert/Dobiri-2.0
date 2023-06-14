@@ -6,7 +6,7 @@ import {
   ADMIN_UPDATE_PRODUCT,
 } from "./adminShowProduct.type";
 
-const mainUrl = "https://dailybackend.onrender.com";
+const mainUrl = "http://localhost:5000";
 const token = localStorage.getItem("AdminToken");
 const config = {
   headers: {

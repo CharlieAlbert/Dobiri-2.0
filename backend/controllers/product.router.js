@@ -48,7 +48,7 @@ Router.post("/add", async (req, res) => {
   try {
     let data = new Product(loge);
     await data.save();
-    res.status(200).send({ msg: "Product product added successfully" });
+    res.status(200).send({ msg: "product added successfully" });
   } catch (error) {
     res.status(500).send({ msg: "Something Went Wrong!" });
   }
@@ -60,7 +60,7 @@ Router.delete("/delete/:id", async (req, res) => {
   const id = req.params.id;
   try {
     await Product.findByIdAndDelete({ _id: id });
-    res.status(200).send({ msg: "delete product successfully" });
+    res.status(200).send({ msg: "Product deleted successfully" });
   } catch (error) {
     res.status(500).send({ msg: "Something Went Wrong!" });
   }
@@ -71,7 +71,7 @@ Router.patch("/update/:id", async (req, res) => {
   const payload = req.body;
   try {
     await Product.findByIdAndUpdate({ _id: id }, payload);
-    res.status(200).send({ msg: "update product successfully" });
+    res.status(200).send({ msg: "Updated product successfully" });
   } catch (error) {
     res.status(500).send({ msg: "Something Went Wrong!" });
   }

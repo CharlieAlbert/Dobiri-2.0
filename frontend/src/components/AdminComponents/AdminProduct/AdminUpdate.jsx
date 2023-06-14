@@ -26,7 +26,7 @@ const AdminUpdate = () => {
   const getdata = async (id) => {
     try {
       const res = await axios(
-        `https://dailybackend.onrender.com/products/${id}`
+        `https://localhost:5000/products/${id}`
       );
       setProduct(res.data.totalProduct);
     } catch (err) {
