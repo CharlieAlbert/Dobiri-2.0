@@ -26,7 +26,7 @@ const createProduct = async (req, res, next) => {
   }
 };
 
-// route for the add the data in to cart of particuler user.(http://localhost:8080/cart/add/:userId);
+// route for adding the data in to cart of a particuler user.(http://localhost:8080/cart/add/:userId);
 cartRouter.post("/add/:userId", createProduct);
 
 // -------------------------------------------------------------
