@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import { Link } from "react-router-dom";
 import styles from "./Homepage.module.css";
 import { Swiper, SwiperSlide } from "swiper/react";
@@ -85,6 +86,11 @@ const newArrivals = [
 ];
 
 const Homepage = () => {
+
+  useEffect(() => {
+    window.scrollTo(0, 0); // Scrolls to the top when component is mounted
+  }, []);
+
   //Shop products section
   var products = [
     "Furniture",

@@ -9,6 +9,7 @@ import AdminLogin from "./AdminPage/AdminLogin";
 import AdminShowCart from "./AdminPage/AdminShowCart";
 import AdminShowProduct from "./AdminPage/AdminShowProduct";
 import AdminShowUser from "./AdminPage/AdminShowUser";
+import AdminSignup from "../components/pages/AdminSignup/AdminSignup";
 import Homepage from "../components/Homepage/Homepage";
 import AdminAddPoductPage from "./AdminPage/AdminAddPoductPage";
 import Groceries from "../components/Product/Groceries";
@@ -67,6 +68,16 @@ const AllRoutes = () => {
           <>
             <HomeNavbar />
             <AdminLogin />
+            <LargeWithAppLinksAndSocial />
+          </>
+        }
+      ></Route>
+      <Route
+        path="/AdminSignUp"
+        element={
+          <>
+            <HomeNavbar />
+            <AdminSignup />
             <LargeWithAppLinksAndSocial />
           </>
         }
