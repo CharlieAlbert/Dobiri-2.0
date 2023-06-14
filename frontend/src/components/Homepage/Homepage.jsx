@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import { Link } from "react-router-dom";
 import styles from "./Homepage.module.css";
 import { Swiper, SwiperSlide } from "swiper/react";
@@ -85,6 +86,11 @@ const newArrivals = [
 ];
 
 const Homepage = () => {
+
+  useEffect(() => {
+    window.scrollTo(0, 0); // Scrolls to the top when component is mounted
+  }, []);
+
   //Shop products section
   var products = [
     "Furniture",
@@ -140,6 +146,7 @@ const Homepage = () => {
             </b>
           </h3>
           <br />
+          <br/>
           <button
             style={{
               padding: "5px 15px 5px 15px",
@@ -212,6 +219,7 @@ const Homepage = () => {
       >
         <GridItem className={styles.shopCollectionsItems}>
           <Image src={topDrink} alt="" max-width={"100%"} style={{ height: "auto", aspectRatio: "3/2", objectFit: "contain",}} />
+          <br/>
           <p>Drinks</p>
           <p>Keep the party going!</p>
           <p>
@@ -226,6 +234,7 @@ const Homepage = () => {
             src={vape}
             alt=""
           />
+          <br/>
           <p>Vape</p>
           <p>The fun you wouldn't miss</p>
           <p>
@@ -240,6 +249,7 @@ const Homepage = () => {
             src={stickers}
             alt=""
           />
+          <br/>
           <p>Stickers</p>
           <p>
             A reflection of modern culture. Get awesome stickers for your phone.
@@ -252,7 +262,7 @@ const Homepage = () => {
         </GridItem>
       </Grid>
       <Box className={styles.firstHomeItem}>
-        <Image src={heroImg} id="heroimg" alt="" />
+        <Image src={heroImg} id={styles.heroimg} alt="" />
       </Box>
       {/* New Arrivals */}
       <div className={styles.shopCategories}>
@@ -299,28 +309,23 @@ const Homepage = () => {
         className={styles.shopCollections}
       >
         <GridItem className={styles.shopCollectionsItems}>
+        <Link className={styles.coll_link} to="/">
+        
           <Image
             src={groceries}
             alt=""
           />
-          <p>Groceries</p>
-          <p>
-            <Link className={styles.coll_link} to="/">
-              Shop Now
-            </Link>
-          </p>
+          <p className={styles.linkText}>Groceries</p>
+        </Link>
         </GridItem>
         <GridItem className={styles.shopCollectionsItems}>
-          <Image
-            src={foodDelivery}
-            alt=""
-          />
-          <p>Order in</p>
-          <p>
-            <Link className={styles.coll_link} to="/">
-              Order now
-            </Link>
-          </p>
+          <Link className={styles.coll_link} to="/">
+            <Image
+              src={foodDelivery}
+              alt=""
+            />
+            <p className={styles.linkText}>Order in</p>
+          </Link>
         </GridItem>
       </Grid>
 

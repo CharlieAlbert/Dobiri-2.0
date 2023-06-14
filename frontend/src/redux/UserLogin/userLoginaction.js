@@ -5,7 +5,7 @@ import {
   USER_LOGIN_REQUEST,
   USER_LOGIN_SUCCESS,
 } from "./userLogin.type";
-const Url = "https://dailybackend.onrender.com";
+const Url = "http://localhost:5000";
 
 export const Userlogin = (creds) => async (dispatch) => {
   dispatch({ type: USER_LOGIN_REQUEST });

@@ -18,7 +18,7 @@ const AdminProductShowCard = ({ id, img, title, price, stocks, page }) => {
       }}
     >
       <Td width={"10%"}>
-        <Image src={img} width={"100%"} />
+        <Image src={process.env.PUBLIC_URL + '/productImages/' + img} width={"100%"} />
       </Td>
       <Td>{title}</Td>
       <Td>{price}</Td>

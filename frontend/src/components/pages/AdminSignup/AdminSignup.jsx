@@ -10,9 +10,8 @@ import {
   useToast,
 } from "@chakra-ui/react";
 import { Link, useNavigate } from "react-router-dom";
-import "./signup.css";
 
-const Signup = () => {
+const AdminSignup = () => {
   const [signup, setSignup] = useState({});
   const navigate = useNavigate();
   const toast = useToast();
@@ -28,7 +27,7 @@ const Signup = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    fetch("http://localhost:5000/user/register", {
+    fetch("http://localhost:5000/admin/admin-signup", {
       method: "POST",
       body: JSON.stringify(signup),
       headers: {
@@ -86,7 +85,7 @@ const Signup = () => {
             alignItems={"center"}
           >
             <Heading lineHeight={1.1} fontSize={{ base: "2xl", md: "3xl" }}>
-              Register
+              Admin Register
             </Heading>
             <form style={{ width: "100%" }} onSubmit={handleSubmit}>
               {/* First Name */}
@@ -182,4 +181,4 @@ const Signup = () => {
   );
 };
 
-export default Signup;
+export default AdminSignup;

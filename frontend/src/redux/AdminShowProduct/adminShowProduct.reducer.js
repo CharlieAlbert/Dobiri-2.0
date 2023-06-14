@@ -12,8 +12,8 @@ const initialValue = {
   oneProduct: [],
   productData: {},
   product: 0,
-  deletemsg: null,
-  updatemsg: null,
+  deletemsg: 'Product deleted successfully',
+  updatemsg: 'Product Updated successfully',
 };
 
 export const adminShowProductReducer = (

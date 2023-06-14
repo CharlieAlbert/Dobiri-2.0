@@ -35,7 +35,7 @@ const AdminLogin = () => {
   };
   useEffect(() => {
     if (isAuth) {
-      if (state.form) {
+      if (state && state.form) {
         naviget(state.form, { replace: true });
       } else {
         naviget("/admin");
@@ -80,12 +80,7 @@ const AdminLogin = () => {
           my={12}
           alignItems={"center"}
         >
-          <Image
-            src={
-              "https://drive.google.com/uc?export=view&id=1Au2Q9AJ9LQwCZ4VIzPk52z5ZroOkNBfh"
-            }
-            width={"30%"}
-          />
+
           <Heading lineHeight={1.1} fontSize={{ base: "2xl", md: "3xl" }}>
             Admin
           </Heading>
@@ -93,7 +88,7 @@ const AdminLogin = () => {
             <FormControl id="email" isRequired pb={"20px"}>
               <FormLabel fontSize={"18px"}>Email address</FormLabel>
               <Input
-                placeholder="your-email@dailysope.com"
+                placeholder="your-email@domain.com"
                 _placeholder={{ color: "gray.500" }}
                 type="email"
                 name="email"
