@@ -24,6 +24,7 @@ import {
 } from "../../../redux/AdminShowProduct/adminShowProduct.action";
 import Pagination from "../Pagination";
 import AdminProductShowCard from "./AdminProductShowCard";
+
 const AdminGetProduct = () => {
   const { adminProduct, product } = useSelector(
     (store) => store.adminShowProduct
@@ -36,6 +37,7 @@ const AdminGetProduct = () => {
     dispatch(adminShowProducts(page));
     // dispatch(adminDeleteProduct());
   }, [page]);
+
   return (
     <div>
       <Heading textAlign={"center"}>Product</Heading>
@@ -71,7 +73,7 @@ const AdminGetProduct = () => {
             </Tr>
           </Thead>
           <Tbody>
-            {adminProduct.map((item) => (
+            {adminProduct && adminProduct.map((item) => (
               <AdminProductShowCard
                 key={item._id}
                 id={item._id}

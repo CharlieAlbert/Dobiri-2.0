@@ -5,14 +5,21 @@ const morgan = require("morgan");
 const connectDB = require("./config/db");
 const dotenv = require("dotenv");
 const cors = require("cors");
+const path = require('path');
 
 const app = express();
 
 app.use(cors());
-app.use(express.json());
+
+const maxRequestBodySize = '100mb';
+app.use(express.json({limit: maxRequestBodySize}));
+app.use(express.urlencoded({limit: maxRequestBodySize}));
 
 //Loading config
 dotenv.config({ path: "./config/config.env" });
+
+// Use body-parser middleware
+app.use(bodyParser.json({ limit: '100mb' })); // Adjust the limit as needed
 
 const PORT = process.env.PORT;
 const MONGO_URI = process.env.MONGO_URI;
@@ -21,9 +28,14 @@ mongoose.connect(MONGO_URI);
 
 const db = mongoose.connection;
 
+mongoose.set('strictQuery', false);
+
 db.on("error", (err) => {
   console.log(err);
 });
+
+// Serve static files (including images) from the "uploads" directory
+app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 
 db.once("open", () => {
   console.log("Database connection established!");

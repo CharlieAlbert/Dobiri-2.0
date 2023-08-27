@@ -11,6 +11,16 @@ import { useSelector } from "react-redux";
 const Cart = () => {
   const [price, setPrice] = useState(0);
   const user = useSelector((user) => user.loginAuth.user);
+  const adminData = useSelector((state) => state.adminAuth.data);
+  const baseUrl = "http://localhost:5000/";
+  let uid;
+
+  if(user == null){
+    uid = adminData[0]._id;
+  }else{
+    uid = user._id;
+  }
+
   const [data, setdata] = useState(
     JSON.parse(localStorage.getItem("cart")) || []
   );
@@ -29,7 +39,7 @@ const Cart = () => {
 
   const getuser = async (id) => {
     const newuser = await axios.get(
-      `https://dailybackend.onrender.com/user/${id}`
+      baseUrl + `/user/${id}`
     );
     const loginuser = newuser.data.user[0];
     localStorage.setItem("user", JSON.stringify(loginuser));
@@ -38,8 +48,8 @@ const Cart = () => {
   };
   useEffect(() => {
     checkPrice();
-    getuser(user._id);
-  }, [qua, user._id, data]);
+    getuser(uid);
+  }, [qua, uid, data]);
 
   const deleteitem = async (id, deleted) => {
     const res = await axios.post(

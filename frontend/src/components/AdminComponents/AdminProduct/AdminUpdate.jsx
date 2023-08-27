@@ -23,23 +23,39 @@ const AdminUpdate = () => {
   const dispatch = useDispatch();
   const { id } = useParams();
   const [product, setProduct] = useState({});
+
   const getdata = async (id) => {
     try {
       const res = await axios(
-        `https://localhost:5000/products/${id}`
+        `http://localhost:5000/products/${id}`
       );
       setProduct(res.data.totalProduct);
     } catch (err) {
       console.log(err);
     }
   };
+
+  console.log(product);
+
   useEffect(() => {
     getdata(id);
   }, [id]);
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async(e) => {
     e.preventDefault();
-    dispatch(adminUpdateData(id, product));
+   
+    // Convert input images to data URLs
+    const img1DataUrl = await convertToDataUrl(product.img1);
+    const img2DataUrl = await convertToDataUrl(product.img2);
+
+    // Create a new product object with data URLs
+    const productWithImages = {
+      ...product,
+      img1: img1DataUrl,
+      img2: img2DataUrl,
+    };
+
+    dispatch(adminUpdateData(id, productWithImages));
     toast({
       title: updatemsg,
       status: "success",
@@ -47,13 +63,58 @@ const AdminUpdate = () => {
       isClosable: true,
       position: "top",
     });
+
+    window.location.href = "/admin/product";
   };
 
   const hanldeChange = (e) => {
-    const { name, value } = e.target;
-    setProduct({
-      ...product,
-      [name]: value,
+
+    const { name, value, files} = e.target;
+
+    if (files && files[0]) {        
+      setProduct({
+        ...product,
+        [name]: files[0], // Store the file object itself, not the data URL
+      })
+    }else{
+      setProduct({
+        ...product,
+        [name]: value,
+      });
+    }
+    
+  };
+
+  const handleImgUpload = (e) =>{
+
+    const { name, value, files } = e.target;
+        
+    if (files && files[0]) {        
+      setProduct({
+        ...product,
+        [name]: files[0], // Store the file object itself, not the data URL
+      })
+      
+    }else{
+      setProduct({
+        ...product,
+        [name]: value,
+      });
+    }
+    
+  }
+  
+  // Function to convert an image to data URL
+  const convertToDataUrl = (file) => {
+    return new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.onload = (event) => {
+        resolve(event.target.result);
+      };
+      reader.onerror = (event) => {
+        reject(new Error("Failed to convert image to data URL"));
+      };
+      reader.readAsDataURL(file);
     });
   };
   return (
@@ -72,6 +133,7 @@ const AdminUpdate = () => {
             gap: "20px",
           }}
           onSubmit={handleSubmit}
+          enctype="multipart/form-data"
         >
           <Stack
             spacing={"10"}
@@ -79,26 +141,26 @@ const AdminUpdate = () => {
             width={{ base: "100%", sm: "100%" }}
           >
             <Box width={{ base: "100%", sm: "100%" }}>
-              <FormControl>
+              <FormControl isRequired>
                 <FormLabel>Product Title</FormLabel>
                 <Input
                   type="text"
                   name="title"
-                  value={product.title}
                   onChange={hanldeChange}
                   placeholder={"Title"}
+                  value={product.title}
                 />
               </FormControl>
             </Box>
             <Box width={{ base: "100%", sm: "100%" }}>
-              <FormControl>
+              <FormControl isRequired>
                 <FormLabel>Product Price</FormLabel>
                 <Input
                   type="text"
                   name="price"
-                  value={product.price}
                   onChange={hanldeChange}
                   placeholder={"Product Price"}
+                  value={product.price}
                 />
               </FormControl>
             </Box>
@@ -108,30 +170,27 @@ const AdminUpdate = () => {
             direction={{ base: "column", sm: "row" }}
             width={{ base: "100%", sm: "100%" }}
           >
-            <Box width={{ base: "100%", sm: "100%" }}>
-              <FormControl>
-                <FormLabel>First Image</FormLabel>
-                <Input
-                  type="text"
-                  name="img1"
-                  value={product.img1}
-                  onChange={hanldeChange}
-                  placeholder={"Image URL"}
-                />
-              </FormControl>
-            </Box>
-            <Box width={{ base: "100%", sm: "100%" }}>
-              <FormControl>
-                <FormLabel>Second Image</FormLabel>
-                <Input
-                  type="text"
-                  name="img2"
-                  value={product.img2}
-                  onChange={hanldeChange}
-                  placeholder={"Image URL"}
-                />
-              </FormControl>
-            </Box>
+           <FormControl isRequired>
+            <FormLabel>First Image</FormLabel>
+            <input
+              type="file"
+              name="img1"
+              accept="image/*"
+              className="productImageInput"
+              onChange={hanldeChange}
+            />
+          </FormControl>
+          <FormControl isRequired>
+            <FormLabel>Second Image</FormLabel>
+            <input
+              type="file"
+              name="img2"
+              accept="image/*"
+              className="productImageInput"
+              onChange={hanldeChange}
+            />
+          </FormControl>
+
           </Stack>
           <Stack
             width={{ base: "100%", sm: "100%" }}
@@ -139,43 +198,78 @@ const AdminUpdate = () => {
             direction={{ base: "column", sm: "row" }}
           >
             <Box width={{ base: "100%", sm: "100%" }}>
-              <FormControl>
+              <FormControl isRequired>
                 <FormLabel>Main-Category</FormLabel>
                 <Select
                   placeholder="Select option"
-                  onChange={hanldeChange}
+                  onChange={handleImgUpload}
                   name="maincategory"
-                  value={product.maincategory}
+                  id="maincategory"
                 >
-                  <option value="new arrivals">new arrivals</option>
-                  <option value="sale">sale</option>
+                  <option value="Furniture">Furniture</option>
+                  <option value="Liquor">Liquor</option>
+                  <option value="Vape">Vape</option>
+                  <option value="Stickers">Stickers</option>
+                  <option value="Home Appliances">Home Appliances</option>
+                  <option value="Groceries">Groceries</option>
+                  <option value="Food">Food</option>
                 </Select>
               </FormControl>
             </Box>
             <Box width={{ base: "100%", sm: "100%" }}>
-              <FormControl>
+              <FormControl isRequired>
                 <FormLabel>Sub-Category</FormLabel>
-                <Select
-                  onChange={hanldeChange}
-                  name="category"
-                  value={product.category}
-                >
-                  {product.maincategory === "new arrivals" && (
-                    <option value="bag">bag</option>
+                <Select onChange={handleImgUpload} name="category" id="subcategory" category>
+                  {product.maincategory === "Furniture" && (
+                    <>
+                      <option value=""></option>
+                      <option value="Bed">Bed</option>
+                      <option value="Desk">Desk</option>
+                      <option value="Chair">Chair</option>
+                      <option value="Sofa">Sofa</option>
+                      <option value="Shoe rack">Shoe rack</option>
+                      <option value="Table">Table</option>
+                    </>
                   )}
-                  {product.maincategory === "new arrivals" && (
-                    <option value="desks">desks</option>
+                  {product.maincategory === "Liquor" && (
+                    <>
+                      <option value=""></option>
+                      <option value="Whisky">Whisky</option>
+                      <option value="Wine">Wine</option>
+                      <option value="Gin">Gin</option>
+                      <option value="Rum">Rum</option>
+                      <option value="Brandy">Brandy</option>
+                      <option value="Vodka">Vodka</option>
+                      <option value="Champagne">Champagne</option>
+                      <option value="Beer">Beer</option>
+                      <option value="Liqueur">Liqueur</option>
+                      <option value="Tequila">Tequila</option>
+                      <option value="Cognac">Cognac</option>
+                    </>
                   )}
-                  {product.maincategory === "sale" && (
-                    <option value="messengerbag">messengerbag</option>
+                  {product.maincategory === "Vape" && (
+                    <>
+                      <option value=""></option>
+                      <option value="Vape">Vape</option>
+                    </>
                   )}
-                  {product.maincategory === "sale" && (
-                    <option option value="wallet">
-                      wallet
-                    </option>
+                  {product.maincategory === "Stickers" && (
+                    <>
+                      <option value=""></option>
+                      <option option value="Stickers">Stickers</option>
+                    </>
                   )}
-                  {product.maincategory === "new arrivals" && (
-                    <option value="watch">watch</option>
+                  {product.maincategory === "Home Appliances" && (
+                    <>
+                      <option value=""></option>
+                      <option value="Cook Top">Cook Top</option>
+                      <option value="Cooker">Cooker</option>
+                      <option value="Iron">Iron</option>
+                      <option value="Kettle">Kettle</option>
+                      <option value="Microwave">Microwave</option>
+                      <option value="Television">Television</option>
+                      <option value="Refrigerator">Refrigerator</option>
+                    </>
                   )}
                 </Select>
               </FormControl>
@@ -187,26 +281,26 @@ const AdminUpdate = () => {
             direction={{ base: "column", sm: "row" }}
           >
             <Box width={{ base: "100%", sm: "100%" }}>
-              <FormControl>
+              <FormControl isRequired>
                 <FormLabel>Price Strike</FormLabel>
                 <Input
                   type="text"
                   name="strike"
-                  value={product.strike}
                   onChange={hanldeChange}
                   placeholder={"Discount "}
+                  value={product.strike}
                 />
               </FormControl>
             </Box>
             <Box width={{ base: "100%", sm: "100%" }}>
-              <FormControl>
+              <FormControl isRequired>
                 <FormLabel>Add Stocks</FormLabel>
                 <Input
                   type="text"
                   name="stocks"
-                  value={product.stocks}
                   onChange={hanldeChange}
                   placeholder={"Stocks"}
+                  value={product.stocks}
                 />
               </FormControl>
             </Box>

@@ -1,17 +1,46 @@
 import { Grid, Spinner, VStack } from "@chakra-ui/react";
 import React, { useCallback, useEffect, useRef, useState } from "react";
+import axios from "axios"; // Import Axios
 import Header from "./Header";
 import useFetch from "./hooks";
 import Items from "./Items";
-import Data from "../Data/bag.json";
 import "./orderfood.css";
 
 export default function Groceries() {
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
   const [query, setQuery] = useState("");
   const [sortdata, setSortdata] = useState("");
   const [page, setPage] = useState(1);
-  let url = `https://localhost:5000/products?page=${page}&category=bag&sort=${sortdata}`;
-  let { loading, error, list } = useFetch(query, page, url);
+  let [Data, setData] = useState([]); // State to hold the fetched data
+  
+  const maincategory = 'Food';
+  
+  useEffect(() => {
+    const fetchData = async (maincategory, page) => {
+      try {
+        setLoading(true);
+        setError(null);
+
+        const response = await axios.get(`http://localhost:5000/products/allproducts`, {
+          params: {
+            maincategory: maincategory,
+            page: page,
+          },
+        });
+
+        setData(response.data.products);
+        setLoading(false);
+      } catch (error) {
+        setError(error);
+        setLoading(false);
+      }
+    };
+
+    fetchData(maincategory, page);
+  }, []); 
+  
+
   const loader = useRef(null);
   const handleObserver = useCallback((entries) => {
     const target = entries[0];

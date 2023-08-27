@@ -3,13 +3,43 @@ import React, { useCallback, useEffect, useRef, useState } from 'react'
 import Header from './Header';
 import useFetch from './hooks';
 import Items from './Items';
+import axios from 'axios';
 
 export default function Homeappliances() {
-    const [query, setQuery] = useState("");
-    const [sortdata, setSortdata] = useState("");
-    const [page, setPage] = useState(1);
-    let url=`https://localhost:5000/products?page=${page}&category=desks&sort=${sortdata}`;
-    let { loading, error, list } = useFetch(query, page,url);
+  const [query, setQuery] = useState("");
+  const [sortdata, setSortdata] = useState("");
+  const [page, setPage] = useState(1);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+  let [Data, setData] = useState([]); // State to hold the fetched data
+
+
+  const maincategory = 'Home Appliance';
+  
+  useEffect(() => {
+    const fetchData = async (maincategory, page) => {
+      try {
+        setLoading(true);
+        setError(null);
+
+        const response = await axios.get(`http://localhost:5000/products/allproducts`, {
+          params: {
+            maincategory: maincategory,
+            page: page,
+          },
+        });
+
+        setData(response.data.products);
+        setLoading(false);
+      } catch (error) {
+        setError(error);
+        setLoading(false);
+      }
+    };
+
+    fetchData(maincategory, page);
+  }, []); 
+
     const loader = useRef(null);
     const handleObserver = useCallback((entries) => {
       const target = entries[0];
@@ -29,12 +59,12 @@ export default function Homeappliances() {
     }, [handleObserver]);
   
   
-  if(query){list=list.filter((elem)=>elem.category===query)}
+  if(query){Data=Data.filter((elem)=>elem.category===query)}
     if (sortdata === "LTH") {
-      list = list.sort((a, b) => a.price - b.price);
+      Data = Data.sort((a, b) => a.price - b.price);
     }else if (sortdata === "HTL") {
-     list = list.sort((a, b) => b.price - a.price);
-    }else{ list=list}
+     Data = Data.sort((a, b) => b.price - a.price);
+    }else{ Data=Data}
   return (
     <>
       <Header
@@ -51,7 +81,7 @@ export default function Homeappliances() {
         gap={6}
         p="0 2rem"
       >
-        {list.map((elem) => {
+        {Data.map((elem) => {
           return <Items key={elem._id} data={elem} />;
         })}
         <div ref={loader} />

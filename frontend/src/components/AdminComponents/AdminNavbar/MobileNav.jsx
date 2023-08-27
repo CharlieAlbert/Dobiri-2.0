@@ -71,6 +71,7 @@ const MobileNav = ({ onOpen }) => {
           size="lg"
           variant="ghost"
           aria-label="open menu"
+          color={"#eb5e28"}
           icon={<FiBell />}
         />
         <Flex alignItems={"center"}>
@@ -102,10 +103,10 @@ const MobileNav = ({ onOpen }) => {
               </HStack>
             </MenuButton>
             <MenuList bg={"white"} borderColor={"gray.200"}>
-              <MenuItem>Profile</MenuItem>
-              <MenuItem>Settings</MenuItem>
+              <MenuItem color={"black"}>Profile</MenuItem>
+              <MenuItem color={"black"}>Settings</MenuItem>
               <MenuDivider />
-              <MenuItem onClick={handleLoginClick}>Sign out</MenuItem>
+              <MenuItem color={"black"} onClick={handleLoginClick}>Sign out</MenuItem>
             </MenuList>
           </Menu>
         </Flex>

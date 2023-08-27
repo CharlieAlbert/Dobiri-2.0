@@ -7,9 +7,13 @@ import {
 
 const token = localStorage.getItem("AdminToken");
 const data = JSON.parse(localStorage.getItem("AdminData")) || {};
+const tokenExpiration = localStorage.getItem("AdminTokenExpiration"); // Get the token's expiration time
+
+const currentTime = new Date().getTime();
+const isTokenValid = tokenExpiration && currentTime < Number(tokenExpiration);
 
 const initialValue = {
-  isAuth: !!token,
+  isAuth: isTokenValid, // Check if the token is still valid
   token: token,
   data: data,
   error: false,
@@ -20,13 +24,17 @@ const initialValue = {
 export const adminReducer = (state = initialValue, { type, payload }) => {
   switch (type) {
     case ADMIN_LOGIN: {
+      const expiresIn = 43200; // Set this value based on your API response
+      const expirationTime = new Date().getTime() + expiresIn * 1000; // Convert expiresIn to milliseconds
       localStorage.setItem("AdminToken", payload.token);
       localStorage.setItem("AdminData", JSON.stringify(payload.admin));
+      localStorage.setItem("AdminTokenExpiration", expirationTime); // Store the expiration time
+      
       return {
         ...state,
         isAuth: true,
-        token: payload,
-        data: payload,
+        token: payload.token,
+        data: payload.admin,
         error: false,
         isLoading: false,
       };
@@ -51,6 +59,7 @@ export const adminReducer = (state = initialValue, { type, payload }) => {
     case ADMIN_LOGOUT: {
       localStorage.removeItem("AdminToken");
       localStorage.removeItem("AdminData");
+      localStorage.removeItem("AdminTokenExpiration"); // Remove the expiration time
       return {
         ...state,
         isAuth: false,

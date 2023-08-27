@@ -15,7 +15,7 @@ const config = {
 };
 export const adminShowProducts = (page) => async (dispatch) => {
   try {
-    let res = await axios.get(`${mainUrl}/products?page=${page}`);
+    let res = await axios.get(`${mainUrl}/products/allproducts/?page=${page}`);
     dispatch({ type: ADMIN_SHOW_PRODUCT, payload: res.data });
   } catch (error) {
     console.log(error.massage);

@@ -2,6 +2,7 @@ import { HiOutlineShoppingBag } from "react-icons/hi";
 import { ImUser } from "react-icons/im";
 import { FiSearch } from "react-icons/fi";
 import $ from 'jquery';
+import {React, useEffect} from "react";
 
 import "./HomeNavbar.css";
 import { useBreakpointValue, Grid, GridItem } from "@chakra-ui/react";
@@ -13,17 +14,24 @@ import Logo from '../../Assets/Dobiri.png';
 import Banner1 from '../../Assets/Banner1.png';
 import Banner2 from '../../Assets/Banner2.png';
 
-const HomeNavbar = () => {
+function HomeNavbar() {
 
   var images = [Banner1, Banner2]; // array of images
 var currentIndex = 0; // current index of the image
 
 var image = document.getElementById("myImage");
 
-setInterval(() => {
-  image.src = images[currentIndex];
-  currentIndex = (currentIndex + 1) % images.length;
-}, 10000);
+
+useEffect(() => {
+  const interval = setInterval(() => {
+    image.src = images[currentIndex];
+    currentIndex = (currentIndex + 1) % images.length;
+  }, 10000);
+
+  return () => {
+    clearInterval(interval); // Cleanup the interval when the component unmounts
+  };
+}, []);
 
 // Cache selected elements in variables
 var $nav = $('.nav');

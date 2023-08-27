@@ -28,6 +28,8 @@ import CreditCard from "../components/Card/CreditCard";
 import Address from "../components/pages/Address/Address";
 import Whislist from "../components/pages/Wishlist/Whislist";
 import Orderfood from "../components/Product/Orderfood"
+import AllProducts from "../components/Product/AllProducts";
+import AdminShowOrders from "./AdminPage/AdminShowOrders";
 
 const AllRoutes = () => {
   return (
@@ -82,6 +84,16 @@ const AllRoutes = () => {
           </>
         }
       ></Route>
+      <Route
+        path="/AllProducts"
+        element={
+          <>
+            <HomeNavbar />
+            <AllProducts />
+            <LargeWithAppLinksAndSocial />
+          </>
+        }
+      />
       <Route
         path="/Furniture"
         element={
@@ -212,7 +224,7 @@ const AllRoutes = () => {
             <AdminDshboardPage />
           </AdminRequireAuth>
         }
-      ></Route>
+      />
       <Route
         path="/admin/product"
         element={
@@ -220,7 +232,7 @@ const AllRoutes = () => {
             <AdminShowProduct />
           </AdminRequireAuth>
         }
-      ></Route>
+      />
       <Route
         path="/admin/user"
         element={
@@ -228,7 +240,7 @@ const AllRoutes = () => {
             <AdminShowUser />
           </AdminRequireAuth>
         }
-      ></Route>
+      />
       <Route
         path="/admin/cart"
         element={
@@ -236,7 +248,15 @@ const AllRoutes = () => {
             <AdminShowCart />
           </AdminRequireAuth>
         }
-      ></Route>
+      />
+            <Route
+        path="/admin/orders"
+        element={
+          <AdminRequireAuth>
+            <AdminShowOrders />
+          </AdminRequireAuth>
+        }
+      />
       <Route
         path="/admin/addProduct"
         element={

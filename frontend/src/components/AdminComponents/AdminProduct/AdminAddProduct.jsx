@@ -10,19 +10,32 @@ import {
   Stack,
   useToast,
 } from "@chakra-ui/react";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { addProduct } from "../../../redux/AdminAddProduct/adminaddProduct.action";
 
-const AdminAddProduct = () => {
+function AdminAddProduct() {
   const [product, setProduct] = useState({});
   const { productData, msg } = useSelector((store) => store.adminAddProduct);
   console.log(msg);
   const dispatch = useDispatch();
   const toast = useToast();
-  const handleSubmit = (e) => {
+
+  const handleSubmit = async(e) => {
     e.preventDefault();
-    dispatch(addProduct(product));
+   
+    // Convert input images to data URLs
+    const img1DataUrl = await convertToDataUrl(product.img1);
+    const img2DataUrl = await convertToDataUrl(product.img2);
+
+    // Create a new product object with data URLs
+    const productWithImages = {
+      ...product,
+      img1: img1DataUrl,
+      img2: img2DataUrl,
+    };
+
+    dispatch(addProduct(productWithImages));
     toast({
       title: msg,
       status: "success",
@@ -30,16 +43,62 @@ const AdminAddProduct = () => {
       isClosable: true,
       position: "top",
     });
+
+    window.location.href = "/admin/product";
   };
 
   const hanldeChange = (e) => {
-    const { name, value } = e.target;
-    setProduct({
-      ...product,
-      [name]: value,
+
+    const { name, value, files} = e.target;
+
+    if (files && files[0]) {        
+      setProduct({
+        ...product,
+        [name]: files[0], // Store the file object itself, not the data URL
+      })
+    }else{
+      setProduct({
+        ...product,
+        [name]: value,
+      });
+    }
+    
+  };
+
+  const handleImgUpload = (e) =>{
+
+    const { name, value, files } = e.target;
+        
+    if (files && files[0]) {        
+      setProduct({
+        ...product,
+        [name]: files[0], // Store the file object itself, not the data URL
+      })
+      
+    }else{
+      setProduct({
+        ...product,
+        [name]: value,
+      });
+    }
+    
+  }
+  
+  // Function to convert an image to data URL
+  const convertToDataUrl = (file) => {
+    return new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.onload = (event) => {
+        resolve(event.target.result);
+      };
+      reader.onerror = (event) => {
+        reject(new Error("Failed to convert image to data URL"));
+      };
+      reader.readAsDataURL(file);
     });
   };
-  console.log(productData);
+
+  console.log(product);
   return (
     <div>
       <Heading textAlign={"center"} pt={"20px"}>
@@ -56,6 +115,7 @@ const AdminAddProduct = () => {
             gap: "20px",
           }}
           onSubmit={handleSubmit}
+          enctype="multipart/form-data"
         >
           <Stack
             spacing={"10"}
@@ -90,28 +150,27 @@ const AdminAddProduct = () => {
             direction={{ base: "column", sm: "row" }}
             width={{ base: "100%", sm: "100%" }}
           >
-            <Box width={{ base: "100%", sm: "100%" }}>
-              <FormControl isRequired>
-                <FormLabel>First Image</FormLabel>
-                <Input
-                  type="text"
-                  name="img1"
-                  onChange={hanldeChange}
-                  placeholder={"Image URL"}
-                />
-              </FormControl>
-            </Box>
-            <Box width={{ base: "100%", sm: "100%" }}>
-              <FormControl isRequired>
-                <FormLabel>Second Image</FormLabel>
-                <Input
-                  type="text"
-                  name="img2"
-                  onChange={hanldeChange}
-                  placeholder={"Image URL"}
-                />
-              </FormControl>
-            </Box>
+           <FormControl isRequired>
+            <FormLabel>First Image</FormLabel>
+            <input
+              type="file"
+              name="img1"
+              accept="image/*"
+              className="productImageInput"
+              onChange={hanldeChange}
+            />
+          </FormControl>
+          <FormControl isRequired>
+            <FormLabel>Second Image</FormLabel>
+            <input
+              type="file"
+              name="img2"
+              accept="image/*"
+              className="productImageInput"
+              onChange={hanldeChange}
+            />
+          </FormControl>
+
           </Stack>
           <Stack
             width={{ base: "100%", sm: "100%" }}
@@ -123,34 +182,74 @@ const AdminAddProduct = () => {
                 <FormLabel>Main-Category</FormLabel>
                 <Select
                   placeholder="Select option"
-                  onChange={hanldeChange}
+                  onChange={handleImgUpload}
                   name="maincategory"
+                  id="maincategory"
                 >
-                  <option value="new arrivals">new arrivals</option>
-                  <option value="sale">sale</option>
+                  <option value="Furniture">Furniture</option>
+                  <option value="Liquor">Liquor</option>
+                  <option value="Vape">Vape</option>
+                  <option value="Stickers">Stickers</option>
+                  <option value="Home Appliances">Home Appliances</option>
+                  <option value="Groceries">Groceries</option>
+                  <option value="Food">Food</option>
                 </Select>
               </FormControl>
             </Box>
             <Box width={{ base: "100%", sm: "100%" }}>
               <FormControl isRequired>
                 <FormLabel>Sub-Category</FormLabel>
-                <Select onChange={hanldeChange} name="category" category>
-                  {product.maincategory === "new arrivals" && (
-                    <option value="bag">bag</option>
+                <Select onChange={handleImgUpload} name="category" id="subcategory" category>
+                  {product.maincategory === "Furniture" && (
+                    <>
+                      <option value=""></option>
+                      <option value="Bed">Bed</option>
+                      <option value="Desk">Desk</option>
+                      <option value="Chair">Chair</option>
+                      <option value="Sofa">Sofa</option>
+                      <option value="Shoe rack">Shoe rack</option>
+                      <option value="Table">Table</option>
+                    </>
                   )}
-                  {product.maincategory === "new arrivals" && (
-                    <option value="desks">desks</option>
+                  {product.maincategory === "Liquor" && (
+                    <>
+                      <option value=""></option>
+                      <option value="Whisky">Whisky</option>
+                      <option value="Wine">Wine</option>
+                      <option value="Gin">Gin</option>
+                      <option value="Rum">Rum</option>
+                      <option value="Brandy">Brandy</option>
+                      <option value="Vodka">Vodka</option>
+                      <option value="Champagne">Champagne</option>
+                      <option value="Beer">Beer</option>
+                      <option value="Liqueur">Liqueur</option>
+                      <option value="Tequila">Tequila</option>
+                      <option value="Cognac">Cognac</option>
+                    </>
                   )}
-                  {product.maincategory === "sale" && (
-                    <option value="messengerbag">messengerbag</option>
+                  {product.maincategory === "Vape" && (
+                    <>
+                      <option value=""></option>
+                      <option value="Vape">Vape</option>
+                    </>
                   )}
-                  {product.maincategory === "sale" && (
-                    <option option value="wallet">
-                      wallet
-                    </option>
+                  {product.maincategory === "Stickers" && (
+                    <>
+                      <option value=""></option>
+                      <option option value="Stickers">Stickers</option>
+                    </>
                   )}
-                  {product.maincategory === "new arrivals" && (
-                    <option value="watch">watch</option>
+                  {product.maincategory === "Home Appliances" && (
+                    <>
+                      <option value=""></option>
+                      <option value="Cook Top">Cook Top</option>
+                      <option value="Cooker">Cooker</option>
+                      <option value="Iron">Iron</option>
+                      <option value="Kettle">Kettle</option>
+                      <option value="Microwave">Microwave</option>
+                      <option value="Television">Television</option>
+                      <option value="Refrigerator">Refrigerator</option>
+                    </>
                   )}
                 </Select>
               </FormControl>

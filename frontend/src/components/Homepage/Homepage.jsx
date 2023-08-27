@@ -154,6 +154,7 @@ const Homepage = () => {
               border: "1px solid #EB5E28",
             }}
             className={styles.heroButton}
+            onClick={()=>{window.location.href = '/allproducts'}}
           >
             SHOP NOW
           </button>

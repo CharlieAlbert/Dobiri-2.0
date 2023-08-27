@@ -6,8 +6,10 @@ import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import { adminDeleteProduct } from "../../../redux/AdminShowProduct/adminShowProduct.action";
 
+
 const AdminProductShowCard = ({ id, img, title, price, stocks, page }) => {
   const { deletemsg } = useSelector((store) => store.adminShowProduct);
+  const baseUrl = "http://localhost:5000/";
   const toast = useToast();
   const dispatch = useDispatch();
   return (
@@ -18,7 +20,7 @@ const AdminProductShowCard = ({ id, img, title, price, stocks, page }) => {
       }}
     >
       <Td width={"10%"}>
-        <Image src={process.env.PUBLIC_URL + '/productImages/' + img} width={"100%"} />
+        <Image src={baseUrl + img} width={"100%"} />
       </Td>
       <Td>{title}</Td>
       <Td>{price}</Td>

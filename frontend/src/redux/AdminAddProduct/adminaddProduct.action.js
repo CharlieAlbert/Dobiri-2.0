@@ -13,6 +13,6 @@ export const addProduct = (product) => async (dispatch) => {
     let res = await axios.post(`${mainUrl}/products/add`, product, config);
     dispatch({ type: ADMIN_ADD_PRODUCT, payload: res.data });
   } catch (error) {
-    console.log(error.msg);
+    console.log(error);
   }
 };

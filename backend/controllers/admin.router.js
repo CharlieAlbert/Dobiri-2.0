@@ -54,4 +54,15 @@ Router.post("/login", async (req, res) => {
   }
 });
 
+Router.get("/:id", async (req, res) => {
+  const id = req.params.id;
+
+  try {
+    const user = await Admin.find({ _id: id });
+    res.send({ user: user });
+  } catch (err) {
+    res.send("Error");
+  }
+});
+
 module.exports = Router;

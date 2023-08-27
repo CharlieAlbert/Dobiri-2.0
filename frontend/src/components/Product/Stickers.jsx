@@ -5,6 +5,8 @@ import Items from "./Items";
 import useFetch from "./hooks";
 import { useDispatch, useSelector } from "react-redux";
 import { handleProductdata } from "../../redux/Product/action";
+import axios from "axios";
+
 export default function Stickers() {
   const Reset = useSelector((b) => b.productReducer.Reset);
   const dispatch = useDispatch();
@@ -12,10 +14,37 @@ export default function Stickers() {
   const [query, setQuery] = useState("");
   const [sortdata, setSortdata] = useState("");
   const [page, setPage] = useState(1);
-  let category;
-  if(query){category=query}
-  let url=`https://localhost:5000/products?maincategory=sales&page=${page}&${category}&sort=${sortdata}`;
-  let { loading, error, list } = useFetch(query, page,url);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+  let [Data, setData] = useState([]); // State to hold the fetched data
+
+
+  const maincategory = 'Stickers';
+  
+  useEffect(() => {
+    const fetchData = async (maincategory, page) => {
+      try {
+        setLoading(true);
+        setError(null);
+
+        const response = await axios.get(`http://localhost:5000/products/allproducts`, {
+          params: {
+            maincategory: maincategory,
+            page: page,
+          },
+        });
+
+        setData(response.data.products);
+        setLoading(false);
+      } catch (error) {
+        setError(error);
+        setLoading(false);
+      }
+    };
+
+    fetchData(maincategory, page);
+  }, []); 
+
   const loader = useRef(null);
   const handleObserver = useCallback((entries) => {
     const target = entries[0];
@@ -34,16 +63,16 @@ export default function Stickers() {
     if (loader.current) observer.observe(loader.current);
   }, [handleObserver]);
 
-if(query){list=list.filter((elem)=>elem.category===query)}
+if(query){Data=Data.filter((elem)=>elem.category===query)}
   if (sortdata === "LTH") {
-    list = list.sort((a, b) => a.price - b.price);
+    Data = Data.sort((a, b) => a.price - b.price);
   }else if (sortdata === "HTL") {
-   list = list.sort((a, b) => b.price - a.price);
+   Data = Data.sort((a, b) => b.price - a.price);
   } else if(sortdata==="reset") {
-      list = Reset;
+      Data = Reset;
     }
- if (query === "" && !count && list.length > 0 && sortdata==="") {
-    dispatch(handleProductdata(list));
+ if (query === "" && !count && Data.length > 0 && sortdata==="") {
+    dispatch(handleProductdata(Data));
   }
   return (
     <>
@@ -63,7 +92,7 @@ if(query){list=list.filter((elem)=>elem.category===query)}
         gap={6}
         p="0 2rem"
       >
-        {list.map((elem) => {
+        {Data.map((elem) => {
           return <Items key={elem._id} data={elem} />;
         })}
         <div ref={loader} />

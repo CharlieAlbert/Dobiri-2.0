@@ -10,3 +10,8 @@ html,body{
   height: 100%;
   overflow-x: hidden;
 }
+
+.productImageInput{
+  border: none;
+  margin: 10px;
+}

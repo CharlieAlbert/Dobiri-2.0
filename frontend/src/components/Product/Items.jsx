@@ -7,24 +7,49 @@ import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 import axios from "axios";
 
+const baseUrl = "http://localhost:5000/";
+
 export default function Items({ data }) {
   const user = useSelector((user) => user.loginAuth.user);
-  const uid=user._id
-  const [wishlist, setwishlist] = useState(JSON.parse(localStorage.getItem("wishlist")) || user.wishlist);
+  const wishlistData = "wishlist";
+  localStorage.setItem("wishlist", JSON.stringify(wishlistData)); // to retrive data use: const storedWishlist = JSON.parse(localStorage.getItem("wishlist")) || user.wishlist;
+
+  const [wishlist, setwishlist] = useState(() => {
+    const storedWishlist = localStorage.getItem("wishlist");
+    try {
+      return JSON.parse(storedWishlist) || [];
+    } catch (error) {
+      console.error("Error parsing wishlist data from localStorage:", error);
+      return [];
+    }
+  });
+  
+
+
+  let token;
+  let uid;
+
+  if(localStorage.getItem("usertoken") == null){
+    token = localStorage.getItem("AdminData");
+    uid=token;
+  }else{
+    token = localStorage.getItem("usertoken");
+    uid=token;
+  }
 
   const navigate = useNavigate();
   const [whit, setWhit] = useState(false);
   const ref = useRef(null);
   const ChangeImage1 = () => {
-    ref.current.src = data.img1;
+    ref.current.src = baseUrl + data.img1;
   };
   const ChangeImage = () => {
-    ref.current.src = data.img2;
+    ref.current.src = baseUrl + data.img2;
   };
 
   useEffect(() => {
     const getuser = async(id) => {
-      const newuser = await axios.get(`https://dailybackend.onrender.com/user/${id}`);
+      const newuser = await axios.get(baseUrl + `user/${id}`);
       const loginuser=newuser.data.user[0]
       const whishl = loginuser.wishlist.filter((elem) => elem._id === data._id);
       if (whishl.length > 0) setWhit(true);
@@ -66,22 +91,21 @@ export default function Items({ data }) {
 }
 
   return (
-    <Card w="100%" m="auto" mt={10} position="relative" borderRadius={20}>
+    <Card w="100%" m="auto" mt={10} position="relative" style={{cursor: "pointer"}} borderRadius={20}  onClick={() => navigate(`/products/${data._id}`)}>
       <Box
         onMouseOver={ChangeImage}
         onMouseOut={ChangeImage1}
-        h="500px"
+        h="300px"
         w="100%"
         borderTopLeftRadius={20}
         borderTopRightRadius={20}
-        onClick={()=>navigate(`/products/${data._id}`)}
+        className={`${Styles.cardImage}`}
       >
-        <Image
-          src={data.img1}
+        <img
+          src={baseUrl + data.img1}
           alt={data.title}
           ref={ref}
-          w="100%"
-          h="100%"
+          className="img-fluid"
           borderTopLeftRadius={20}
           borderTopRightRadius={20}
           bg="#f7f7f7"
@@ -90,10 +114,10 @@ export default function Items({ data }) {
       <CardFooter>
         <Stack>
           <Text color="gray"  fontSize={{lg:"md",md:"sm",base:"xs"}}>
-            {data.title}
+            
           </Text>
           <Text color="black" fontSize={{lg:"2xl",md:"xl",base:"xl"}} fontWeight="bold">
-            Rs.{data.price}
+            Ksh.{data.price}
             <span
               style={{
                 color: "gray",
@@ -106,8 +130,8 @@ export default function Items({ data }) {
             </span>
           </Text>
           
-          <Text color="red" fontSize={{ lg: "md", md: "md", base: "md" }} fontWeight="bold">
-              FREE DUFFLE BAG / WALLET*
+          <Text color="#EB5E28" fontSize={{ lg: "md", md: "md", base: "md" }} fontWeight="bold">
+          {data.title}
             </Text>
         </Stack>
       </CardFooter>

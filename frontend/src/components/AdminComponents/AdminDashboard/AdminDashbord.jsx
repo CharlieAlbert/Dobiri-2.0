@@ -8,6 +8,7 @@ import ContectChartMultiaxis from "../chart/ContectChartMultiaxis";
 
 const AdminDashbord = () => {
   const { adminallProduct } = useSelector((store) => store.adminShowProduct);
+  
   const dispatch = useDispatch();
   useEffect(() => {
     dispatch(adminProduct());
