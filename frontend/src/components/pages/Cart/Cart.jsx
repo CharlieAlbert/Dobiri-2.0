@@ -1,14 +1,18 @@
 import styles from "./cart.module.css";
 import { RiDeleteBin6Line } from "react-icons/ri";
-import { Box, Button, Flex } from "@chakra-ui/react";
+import { Box, Button, Flex, color } from "@chakra-ui/react";
 import { OrderSummary } from "./OrderSummary";
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 import { useEffect } from "react";
 import axios from "axios";
 import { useSelector } from "react-redux";
+import Cookies from "js-cookie";
 
 const Cart = () => {
+  const [data, setdata] = useState(
+    JSON.parse(localStorage.getItem("cart")) || []
+  );
   const [price, setPrice] = useState(0);
   const user = useSelector((user) => user.loginAuth.user);
   const adminData = useSelector((state) => state.adminAuth.data);
@@ -21,10 +25,6 @@ const Cart = () => {
     uid = user._id;
   }
 
-  const [data, setdata] = useState(
-    JSON.parse(localStorage.getItem("cart")) || []
-  );
-
   const [striker, setStriker] = useState(0);
   const [qua, setQua] = useState(1);
 
@@ -34,12 +34,12 @@ const Cart = () => {
     let pr = data.reduce((p, elem) => p + Number(elem.price), 0);
     setPrice(pr);
     let st = data.reduce((p, elem) => p + Number(elem.strike), 0);
-    setStriker(st - pr);
+    setStriker(st);
   };
 
   const getuser = async (id) => {
     const newuser = await axios.get(
-      baseUrl + `/user/${id}`
+      baseUrl + `user/${id}`
     );
     const loginuser = newuser.data.user[0];
     localStorage.setItem("user", JSON.stringify(loginuser));
@@ -53,13 +53,25 @@ const Cart = () => {
 
   const deleteitem = async (id, deleted) => {
     const res = await axios.post(
-      `https://dailybackend.onrender.com/cart/delete/${id}`,
+      baseUrl + `cart/delete/${id}`,
       deleted
     );
     const newdata = data.filter((elem) => elem._id !== res.data._id);
     localStorage.setItem("cart", JSON.stringify(newdata));
     setdata(newdata);
   };
+
+  let product = data.map((ele) => ({
+    title: ele.title,
+    category: ele.category,
+    price: ele.price,
+    stocks: ele.stocks,
+    strike: ele.strike,
+  }));
+
+  // Store the 'product' array in a cookie named 'cartProducts'
+  Cookies.set("cartProducts", JSON.stringify(product)); 
+
   const EmptyCart = () => {
     return (
       <div className={styles.empty}>
@@ -67,7 +79,7 @@ const Cart = () => {
         <p>Fill it with DailyObjects</p>
         <p>
           <Button
-            onClick={() => navigate("/sale")}
+            onClick={() => navigate("/allProducts")}
             width={"200px"}
             bg={"#000"}
             color={"white"}
@@ -90,7 +102,7 @@ const Cart = () => {
           <EmptyCart />
         ) : (
           <>
-            <p className={styles.heading}>SHOPPING BAG</p>
+            <p className={styles.heading}>SHOPPING CART</p>
             <hr />
             <Box
               display={{ lg: "grid", md: "grid", base: "block" }}
@@ -102,13 +114,19 @@ const Cart = () => {
                     <div>
                       <div className={styles.cartItemData}>
                         <img
-                          src={ele.img1}
+                          src={baseUrl + ele.img1}
+                          max-width={"100%"}
+                          style={{
+                            height: "auto",
+                            aspectRatio: "3/2",
+                            objectFit: "contain",
+                          }}
                           alt=""
                           onClick={() => navigate(`/products/${ele._id}`)}
                         />
                         <div>
                           <p>{ele.title}</p>
-                          <span className={styles.price}>Rs.{ele.price}</span>
+                          <span className={styles.price}>Ksh.{ele.price}</span>
                           <span className={styles.line}>{ele.strike}</span>
                           <Flex style={{ margin: "2.5rem 0" }} gap={10}>
                             <div>
@@ -147,6 +165,7 @@ const Cart = () => {
                             <div>
                               <RiDeleteBin6Line
                                 size={30}
+                                style={{color: "black", cursor: "pointer"}}
                                 onClick={() => deleteitem(user._id, ele)}
                               />
                             </div>

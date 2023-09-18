@@ -12,14 +12,20 @@ export default function SingleProduct() {
   const user = useSelector((user) => user.loginAuth.user);
   const adminData = useSelector((state) => state.adminAuth.data);
   const baseUrl = "http://localhost:5000/";
+
   let uid;
 
-  if(user == null){
-    uid = adminData[0]._id;
-  }else{
+  if (user == null) {
+    if (adminData[0]) {
+      uid = adminData[0]._id;
+    } else {
+      // Handle the case where adminData[0] is also undefined or null
+      uid = ""; // Set a default value or handle it accordingly
+    }
+  } else {
     uid = user._id;
   }
-
+  
   const navigate = useNavigate();
   const [data, setData] = useState({});
 
@@ -57,6 +63,9 @@ export default function SingleProduct() {
       console.log(err);
     }
   };
+
+
+  console.log(data)
 
 const getuser = async (id) => {
   try {
@@ -127,19 +136,26 @@ const getuser = async (id) => {
         setcartlist(true);
         alert("Already Add in Cart");
       } else {
-        await axios.post(
-          baseUrl + `/cart/add/${user._id}`,
-          data
-        );
-        const newdata = [...cartdata, data];
-        setcartlist(true);
-        setCartdata(newdata);
-        localStorage.setItem("cart", JSON.stringify(newdata));
+        if (!uid) {
+          // Navigate to the login page if uid is empty
+          navigate("/login");
+        } else {
+          await axios.post(
+            baseUrl + `cart/add/${user._id}`,
+            data
+          );
+          const newdata = [...cartdata, data];
+          setcartlist(true);
+          setCartdata(newdata);
+          localStorage.setItem("cart", JSON.stringify(newdata));
+          navigate("/cart")
+        }
       }
     } catch (err) {
       console.log(err);
     }
   };
+  
 
   return (
     <>
@@ -150,10 +166,16 @@ const getuser = async (id) => {
           className={Styles.main}
         >
           <Box width={{lg:"50%",md:"50%",base:"100%"}}>
-            <Image src={baseUrl + data.img1} ref={ref} />
+            <Image src={baseUrl + data.img1} max-width={"100%"} style={{height: "auto", aspectRatio: "3/2", objectFit: "contain", }} ref={ref} />
             <HStack width={{lg:"80%",md:"90%",base:"90%"}}>
               <Image
                 src={baseUrl + data.img1}
+                max-width={"100%"}
+                style={{
+                  height: "auto",
+                  aspectRatio: "3/2",
+                  objectFit: "contain",
+                }}
                 onClick={() => {
                   ref.current.src = baseUrl + data.img1;
                 }}
@@ -161,6 +183,12 @@ const getuser = async (id) => {
               />
               <Image
                 src={baseUrl + data.img2}
+                max-width={"100%"}
+                style={{
+                  height: "auto",
+                  aspectRatio: "3/2",
+                  objectFit: "contain",
+                }}
                 onClick={() => {
                   ref.current.src = baseUrl + data.img2;
                 }}
@@ -192,7 +220,7 @@ const getuser = async (id) => {
               <Text as="p" style={{marginTop: "10px"}}  fontSize={{lg:"1rem",md:"1rem",base:"1rem"}}>&nbsp; Inclusive of all taxes</Text>
             </Box>
             <HStack>
-              <Text as="p">Extra 10% cashback upto Ksh 500 with your Debit Card</Text>
+              <Text as="p">Extra 10% cashback with your Debit Card</Text>
               <Image
                 src="https://img.freepik.com/free-vector/realistic-credit-card-design_23-2149126090.jpg?w=740&t=st=1692852072~exp=1692852672~hmac=90617b4056abcb477ba07204bd0e40e98c6efc5e087bd5c28a5e9b6d1c86da4e"
                 w="120px"

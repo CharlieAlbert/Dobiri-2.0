@@ -128,6 +128,8 @@ export default function Items({ data }) {
             >
               {data.strike}
             </span>
+            &nbsp;
+            <sm style={{fontSize: '14px', color: '#000000a8'}}>off</sm>
           </Text>
           
           <Text color="#EB5E28" fontSize={{ lg: "md", md: "md", base: "md" }} fontWeight="bold">

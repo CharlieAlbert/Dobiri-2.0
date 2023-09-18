@@ -20,7 +20,6 @@ const adminSchema = mongoose.Schema(
     },
     role: {
       type: String,
-      default: "admin",
     },
     avtar: {
       type: String,

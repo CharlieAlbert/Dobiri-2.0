@@ -27,9 +27,14 @@ const AdminSignup = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
 
+    const signupData = {
+      ...signup,
+      role: "admin", // Adding the role 'admin'
+    };
+
     fetch("http://localhost:5000/admin/admin-signup", {
       method: "POST",
-      body: JSON.stringify(signup),
+      body: JSON.stringify(signupData),
       headers: {
         "Content-Type": "application/json",
       },
@@ -88,6 +93,13 @@ const AdminSignup = () => {
               Admin Register
             </Heading>
             <form style={{ width: "100%" }} onSubmit={handleSubmit}>
+              {/* Hidden Role Input */}
+              <input
+                type="hidden"
+                name="role"
+                value="admin"
+                onChange={handleChange}
+              />
               {/* First Name */}
               <FormControl id="email" isRequired pb={"20px"}>
                 <FormLabel fontSize={"18px"}>First Name</FormLabel>

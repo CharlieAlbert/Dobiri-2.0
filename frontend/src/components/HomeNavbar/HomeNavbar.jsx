@@ -19,10 +19,16 @@ function HomeNavbar() {
   var images = [Banner1, Banner2]; // array of images
 var currentIndex = 0; // current index of the image
 
-var image = document.getElementById("myImage");
+var image;
 
 
 useEffect(() => {
+  image = document.getElementById("myImage");
+  if (!image) {
+    console.error("Image element not found");
+    return;
+  }
+
   const interval = setInterval(() => {
     image.src = images[currentIndex];
     currentIndex = (currentIndex + 1) % images.length;

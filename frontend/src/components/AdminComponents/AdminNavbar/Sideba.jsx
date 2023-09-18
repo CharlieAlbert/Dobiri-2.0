@@ -12,12 +12,24 @@ import NavItem from "./NavItem";
 import logo from '../../../Assets/Dobiri.png';
 
 const Sideba = ({ onClose, display }) => {
-  const LinkItems = [
-    { name: "Dashboard", icon: FiPieChart, link: "/admin" },
-    { name: "Product", icon: FiTrendingUp, link: "/admin/product" },
-    { name: "User", icon: FiUser, link: "/admin/user" },
-    { name: "Orders", icon: FiShoppingCart, link: "/admin/orders" },
-  ];
+  const adminData = JSON.parse(localStorage.getItem("AdminData"));
+  let LinkItems;
+
+  console.log(adminData)
+
+  if(adminData[0].role == 'staff'){
+    LinkItems = [
+      { name: "Dashboard", icon: FiPieChart, link: "/admin" },
+      { name: "Product", icon: FiTrendingUp, link: "/admin/product" },
+    ];
+  }else{
+    LinkItems = [
+      { name: "Dashboard", icon: FiPieChart, link: "/admin" },
+      { name: "Product", icon: FiTrendingUp, link: "/admin/product" },
+      { name: "User", icon: FiUser, link: "/admin/user" },
+      { name: "Orders", icon: FiShoppingCart, link: "/admin/orders" },
+    ];
+  }
 
   return (
     <div>

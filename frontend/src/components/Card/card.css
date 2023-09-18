@@ -1,10 +1,13 @@
+.checkout-card-container{
+  width: 100%;
+}
+
 .card-item {
   max-width: 450px;
   height: 270px;
-  min-width: 370px;
+  min-width: 300px;
   /* margin-left: auto; */
   /* margin-right: auto; */
-  border: 1px solid red;
   position: relative;
   /* z-index: 2; */
   width: 100%;

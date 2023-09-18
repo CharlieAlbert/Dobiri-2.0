@@ -1,16 +1,11 @@
 import { Box } from "@chakra-ui/react";
-import React, { useEffect } from "react";
-import { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { OrderSummary } from "../Cart/OrderSummary";
 import AddressForm from "./AddressForm";
 import Already from "./Already";
-// name, add, landmark, pin, mob
-const initialAddForm = {
-  name: "Nitesh",
-  mob: 7988376352,
-  add: "H.No.848, Street 11, Landmark RAM NAGAR NARWANA, District JIND",
-  pin: "126116",
-};
+import { useSelector } from "react-redux";
+import Cookies from "js-cookie";
+
 export default function Address() {
   const [show, setShow] = useState(false);
   const [check, setCheck] = useState(true);
@@ -18,13 +13,60 @@ export default function Address() {
   const [price, setPrice] = useState(0);
   const [striker, setStriker] = useState(0);
   const [qua, setQua] = useState(1);
+  const user = useSelector((user) => user.loginAuth.user);
+  const adminData = useSelector((state) => state.adminAuth.data);
+
+  let uid;
+  const [userData, setUserData] = useState(
+    JSON.parse(localStorage.getItem("user")) || (user && user.cartitem) || []
+  );
+
+  let deliveryDetails = JSON.parse(localStorage.getItem("deliveryDetails")) || [];
+  let deliveryAddress;
+  let deliveryLandmark;
+
+  if(deliveryDetails == '' || deliveryDetails == null){
+    deliveryAddress = '';
+    deliveryLandmark = ''
+  }else{
+    deliveryAddress = deliveryDetails[0].add;
+    deliveryLandmark = deliveryDetails[0].landmark;
+  }
+
+  // name, add, landmark, pin, mob
+  const [initialAddForm, setInitialForm] = useState({
+    name: userData.first_name +" " +userData.last_name,
+    mob: userData.mobile,
+    add: deliveryAddress,
+    landmark: deliveryLandmark,
+  });
+
+  if (user == null) {
+    if (adminData[0]) {
+      uid = adminData[0]._id;
+    } else {
+      // Handle the case where adminData[0] is also undefined or null
+      uid = ""; // Set a default value or handle it accordingly
+    }
+  } else {
+    uid = user._id;
+  }
+
+    
+  const finalPrice = price - striker;
+  const productDiscount = striker;
+
+  var totalAmount = [finalPrice, productDiscount];
+
+  // Store the 'prices and discount' array in a cookie named 'totalAmount'
+  Cookies.set("totalAmount", JSON.stringify(totalAmount)); 
 
   const data = JSON.parse(localStorage.getItem("cart")) || [];
   const checkPrice = () => {
     let pr = data.reduce((p, elem) => p + Number(elem.price), 0);
     setPrice(pr);
     let st = data.reduce((p, elem) => p + Number(elem.strike), 0);
-    setStriker(st-pr);
+    setStriker(st);
     
   };
   useEffect(() => {

@@ -9,7 +9,7 @@ Router.use(express.json());
 // admin sign-up with hase password in this url (http://localhost:8080/admin/admin-signup)
 
 Router.post("/admin-signup", async (req, res) => {
-  const { email, password, first_name, last_name, avtar } = req.body;
+  const { email, password, first_name, last_name, role, avtar } = req.body;
   try {
     bcyrpt.hash(password, 4, async (err, secure_password) => {
       if (err) {
@@ -20,6 +20,7 @@ Router.post("/admin-signup", async (req, res) => {
           password: secure_password,
           first_name,
           last_name,
+          role,
           avtar,
         });
         await admin.save();

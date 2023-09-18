@@ -30,6 +30,7 @@ import Whislist from "../components/pages/Wishlist/Whislist";
 import Orderfood from "../components/Product/Orderfood"
 import AllProducts from "../components/Product/AllProducts";
 import AdminShowOrders from "./AdminPage/AdminShowOrders";
+import StaffSignup from "../components/pages/StaffSignUp/StaffSignUp";
 
 const AllRoutes = () => {
   return (
@@ -73,7 +74,7 @@ const AllRoutes = () => {
             <LargeWithAppLinksAndSocial />
           </>
         }
-      ></Route>
+      />
       <Route
         path="/AdminSignUp"
         element={
@@ -83,7 +84,17 @@ const AllRoutes = () => {
             <LargeWithAppLinksAndSocial />
           </>
         }
-      ></Route>
+      />
+      <Route
+        path="/StaffSignUp"
+        element={
+          <>
+            <HomeNavbar />
+            <StaffSignup />
+            <LargeWithAppLinksAndSocial />
+          </>
+        }
+      />
       <Route
         path="/AllProducts"
         element={

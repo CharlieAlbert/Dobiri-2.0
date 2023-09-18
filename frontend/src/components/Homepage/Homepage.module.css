@@ -40,9 +40,26 @@ img {
   display: flex;
   align-items: center;
   background-attachment: fixed;
-  background: linear-gradient(90deg, black, rgba(0, 0, 0, 0.137)),
-    url("../../Assets/liquor-herosection.png");
+  animation: changeBackground 9s infinite; /* Change every 3 seconds (3 images in total) */
+  transition: background-image 0.8s cubic-bezier(0.445, 0.05, 0.55, 0.95); /* Add transition animation */
 }
+
+  /* Define your background images in the keyframes */
+  @keyframes changeBackground {
+    0%, 100% {
+      background-image: linear-gradient(90deg, black, rgba(0, 0, 0, 0.137)),
+        url("../../Assets/liquor-herosection.png");
+    }
+    33.33% {
+      background-image: linear-gradient(90deg, black, rgba(0, 0, 0, 0.137)),
+        url("../../Assets/Appliances.jpg"); /* Change to your second image path */
+    }
+    66.67% {
+      background-image: linear-gradient(90deg, black, rgba(0, 0, 0, 0.137)),
+        url("../../Assets/Furniture-hero.jpg"); /* Change to your third image path */
+    }
+  }
+
 
 /* shopCategories css */
 .shopCategories {

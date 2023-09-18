@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useState, useRef, useEffect, useCallback } from "react";
 import { Link } from "react-router-dom";
 import styles from "./Homepage.module.css";
 import { Swiper, SwiperSlide } from "swiper/react";
@@ -15,6 +15,7 @@ import {
   color,
   useBreakpointValue,
 } from "@chakra-ui/react";
+import axios from "axios";
 import Official from "./Official";
 
 //Images
@@ -33,23 +34,25 @@ import groceries from "../../Assets/groceries.jpg";
 import foodDelivery from "../../Assets/food-delivery.png";
 import interiorDesign from "../../Assets/interiorDesign.png";
 
+let baseUrl = 'http://localhost:5000/';
+
 const shopCategories = [
-  { id: 1, url: Chairs, title: "Chairs" },
-  { id: 2, url: Sofas, title: "Sofas" },
-  { id: 3, url: Desk, title: "Desks" },
-  { id: 4, url: Tables, title: "Tables" },
-  { id: 5, url: Liquor, title: "Liquor" },
+  { _id: 1, url: Chairs, title: "Chairs" },
+  { _id: 2, url: Sofas, title: "Sofas" },
+  { _id: 3, url: Desk, title: "Desks" },
+  { _id: 4, url: Tables, title: "Tables" },
+  { _id: 5, url: Liquor, title: "Liquor" },
   {
-    id: 6,
+    _id: 6,
     url: "https://images.dailyobjects.com/marche/assets/images/other/backpack-ups.jpg?tr=cm-pad_crop,v-2,w-874,dpr-1",
     title: "Backpack",
   },
   {
-    id: 7,
+    _id: 7,
     url: "https://images.dailyobjects.com/marche/assets/images/other/deskmat-ups.jpg?tr=cm-pad_crop,v-2,w-874,dpr-1",
     title: "Desk Mat",
   },
-  { id: 8, url: Shoerack, title: "Shoerack" },
+  { _id: 8, url: Shoerack, title: "Shoerack" },
 ];
 
 const newArrivals = [
@@ -87,6 +90,61 @@ const newArrivals = [
 
 const Homepage = () => {
 
+  const [query, setQuery] = useState("All");
+  const [sortdata, setSortdata] = useState("");
+  const [page, setPage] = useState(1);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+  const [data, setData] = useState([]); // Use a more meaningful variable name
+  const [randomItems, setRandomItems] = useState([]);
+  
+  const maincategory = 'All';
+  
+  useEffect(() => {
+    const fetchData = async (maincategory, page) => {
+      try {
+        setLoading(true);
+        setError(null);
+
+        const response = await axios.get(`http://localhost:5000/products/allproducts`, {
+          params: {
+            maincategory: maincategory,
+            page: page,
+          },
+        });
+
+        setData(response.data.products);
+        setLoading(false);
+      } catch (error) {
+        setError(error);
+        setLoading(false);
+      }
+    };
+
+    fetchData(maincategory, page);
+  }, []);  // Include maincategory and page in the dependency array
+
+  const randomProducts = data.sort(() => Math.random() - 0.5).slice(0, 7);
+
+  function getTop3ItemsWithHighestStrike(data) {
+    // Sort the array in descending order based on the 'strike' property
+    const sortedData = data.sort((a, b) => b.strike - a.strike);
+  
+    // Slice the sorted array to get the top 3 items
+    const top3Items = sortedData.slice(0, 3);
+  
+    return top3Items;
+  }
+
+  let highlights;
+
+  if(data == '' || data == null){
+    highlights = shopCategories;
+  }
+  else{
+    highlights = getTop3ItemsWithHighestStrike(data);
+  }
+  
   useEffect(() => {
     window.scrollTo(0, 0); // Scrolls to the top when component is mounted
   }, []);
@@ -102,19 +160,40 @@ const Homepage = () => {
   ];
   var heroImgArray = [heroImg, heroImg2];
 
-  var product = document.getElementById("products");
-  var heroImgItem = document.getElementById("heroimg");
+  var product;
+  var heroImgItem;
+  
   let currentIndex = 0;
   let currentIndex2 = 0;
 
-  setInterval(() => {
-    product.textContent = products[currentIndex];
-    currentIndex = (currentIndex + 1) % products.length;
-  }, 3000);
+  useEffect(() => {
+    product = document.getElementById("products");
+    if (product) {
+      product.textContent = products[currentIndex];
+    }
 
+    setInterval(() => {
+      product.textContent = products[currentIndex];
+      currentIndex = (currentIndex + 1) % products.length;
+    }, 3000);
+  }, [currentIndex]);
+
+  useEffect(() => {
+    heroImgItem = document.getElementById("heroimg");
+    if (heroImgItem) {
+      heroImgItem.src = heroImgArray[currentIndex2];
+    }
+  }, [currentIndex2]);
+
+  
+  var heroImgChange = document.getElementsByClassName("heroSection");
+  var currentIndex3 = 0;
+  
   setInterval(() => {
-    heroImgItem.src = heroImgArray[currentIndex2];
-    currentIndex2 = (currentIndex2 + 1) % heroImgArray.length;
+    if (heroImgChange[currentIndex3]) {
+      heroImgChange[currentIndex3].style.background = heroImgChangeArr[currentIndex3];
+      currentIndex3 = (currentIndex3 + 1) % heroImgChangeArr.length;
+    }
   }, 10000);
 
   //Hero section
@@ -127,10 +206,21 @@ const Homepage = () => {
     "url('../../Assets/vape.png')",
   ];
 
-  setInterval(() => {
-    heroImgChange.style.background = heroImgChangeArr[currentIndex3];
-    currentIndex3 = (currentIndex3 + 1) % heroImgChangeArr.length;
+useEffect(() => {
+  const intervalId = setInterval(() => {
+    const currentElement = heroImgChange[currentIndex3];
+    if (currentElement) {
+      currentElement.style.background = heroImgChangeArr[currentIndex3];
+      currentIndex3 = (currentIndex3 + 1) % heroImgChangeArr.length;
+    }
   }, 10000);
+
+  return () => {
+    // Clear the interval when the component unmounts to avoid memory leaks
+    clearInterval(intervalId);
+  };
+}, [currentIndex3]);
+
 
   const slideCount = useBreakpointValue({ sm: 2, base: 1, md: 3, lg: 4 });
   const isDesktop = useBreakpointValue({ base: false, md: true, lg: true });
@@ -187,9 +277,9 @@ const Homepage = () => {
             className="mySwiper"
             loop={true}
           >
-            {shopCategories.map((ele) => (
-              <SwiperSlide key={ele.id}>
-                <Link to={ele.title}>
+            {randomProducts.map((ele) => (
+              <SwiperSlide key={ele._id}>
+                <Link to={"/products/" + ele._id}>
                   <Image
                     max-width={"100%"}
                     style={{
@@ -197,7 +287,7 @@ const Homepage = () => {
                       aspectRatio: "3/2",
                       objectFit: "contain",
                     }}
-                    src={ele.url}
+                    src={baseUrl + ele.img1}
                     alt=""
                   />
                 </Link>
@@ -219,45 +309,45 @@ const Homepage = () => {
         className={styles.shopCollections}
       >
         <GridItem className={styles.shopCollectionsItems}>
-          <Image src={topDrink} alt="" max-width={"100%"} style={{ height: "auto", aspectRatio: "3/2", objectFit: "contain",}} />
+          <Image src={baseUrl + highlights[0].img1} alt="" max-width={"100%"} style={{ height: "auto", aspectRatio: "3/2", objectFit: "contain",}} />
           <br/>
-          <p>Drinks</p>
-          <p>Keep the party going!</p>
+          <p>{highlights[0].title}</p>
+          <p>Get upto Ksh{highlights[0].strike} Discount</p>
           <p>
-            <Link className={styles.coll_link} to="/liquor">
-              Shop Now
+            <Link className={styles.coll_link} to={'/products/' + highlights[0]._id}>
+              Buy Now
             </Link>
           </p>
         </GridItem>
         <GridItem className={styles.shopCollectionsItems}>
           <Image
             max-width={"100%"} style={{ height: "auto", aspectRatio: "3/2", objectFit: "contain",}}
-            src={vape}
+            src={baseUrl + highlights[1].img1}
             alt=""
           />
           <br/>
-          <p>Vape</p>
-          <p>The fun you wouldn't miss</p>
+          <p>{highlights[1].title}</p>
+          <p>Get upto Ksh{highlights[1].strike} Discount</p>
           <p>
-            <Link className={styles.coll_link} to="/vape">
-              Shop Now
+            <Link className={styles.coll_link} to={'/products/' + highlights[1]._id}>
+              Buy Now
             </Link>
           </p>
         </GridItem>
         <GridItem className={styles.shopCollectionsItems}>
           <Image
             max-width={"100%"} style={{ height: "auto", aspectRatio: "3/2", objectFit: "contain",}}
-            src={stickers}
+            src={baseUrl + highlights[2].img1}
             alt=""
           />
           <br/>
-          <p>Stickers</p>
+          <p>{highlights[2].title}</p>
           <p>
-            A reflection of modern culture. Get awesome stickers for your phone.
+            Get upto Ksh{highlights[2].strike} Discount
           </p>
           <p>
-            <Link className={styles.coll_link} to="/stickers">
-              Shop Now
+            <Link className={styles.coll_link} to={'/products/' + highlights[2]._id}>
+              Buy Now
             </Link>
           </p>
         </GridItem>

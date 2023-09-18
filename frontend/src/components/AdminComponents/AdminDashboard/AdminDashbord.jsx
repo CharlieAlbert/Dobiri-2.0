@@ -13,14 +13,20 @@ const AdminDashbord = () => {
   useEffect(() => {
     dispatch(adminProduct());
   }, []);
+
+      
+
   let category = [];
   let subCategory = [];
   let stokes = [];
+
   adminallProduct.forEach((ele) => {
     category.push(ele.category);
     subCategory.push(ele.maincategory);
     stokes.push(ele.strike);
   });
+
+  console.log(adminallProduct)
 
   function ContectData(data) {
     let obj = {};
@@ -43,6 +49,7 @@ const AdminDashbord = () => {
   let ContectNum = ContectData(category);
   let subContectNum = ContectData(subCategory);
   let stokesNum = ContectData(stokes);
+  console.log(subContectNum)
 
   // console.log(ContectNum);
   return (
@@ -59,26 +66,26 @@ const AdminDashbord = () => {
       >
         <Box p={6}>
           <ContectChartBar
-            name={"Total SubCategory"}
-            label={"SubCategory"}
-            color={["#10B981", "#F59E0B", "#4F46E5", "#3B82F6", "#EF4444"]}
+            name={"Total Sales"}
+            label={"Sales"}
+            color={["#F59E0B", "#10B981", "#4F46E5", "#3B82F6", "#EF4444", '#003f91' ,'#7CDF64', '#4F772D', '#cea07e', '#ec0b43', '#58355e', '#fff689']}
             labels={ContectNum[1]}
-            dataNum={ContectNum[0]}
+            dataNum={stokesNum[0]}
           />
         </Box>
         <Box width={"60%"} margin={"auto"} p={6}>
           <ContectChartMultiaxis
             name={"Total MainCategory"}
             label={"MainCategory"}
-            color={["#10B981", "#EF4444"]}
+            color={["#10B981", "#F59E0B", "#4F46E5", "#3B82F6", "#EF4444", '#003f91' ,'#7CDF64', '#4F772D', '#cea07e', '#ec0b43', '#58355e', '#fff689']}
             labels={subContectNum[1]}
             dataNum={subContectNum[0]}
           />
         </Box>
         <Box p={6}>
           <ContectChart
-            name={"Total stoke"}
-            label={"stoke"}
+            name={"Total stock"}
+            label={"stock"}
             color={"#3B82F6"}
             labels={stokesNum[1]}
             dataNum={stokesNum[0]}
